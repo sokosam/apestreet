@@ -1,0 +1,9 @@
+.rowItem {
+  min-height: 100px;
+}
+
+.stockImg {
+  object-fit: cover;
+  width: 80%;
+  height: 80%;
+}
