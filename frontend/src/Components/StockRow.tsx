@@ -22,18 +22,22 @@ const StockRow = ({
   return (
     <>
       <td
-        className={`px-2 w-1/3 border-b-2 min-w-24  hover:underline hover:cursor-pointer self-center ${style.tableRow}`}
+        className={`border-b-2 hover:underline hover:cursor-pointer self-center ${style.tableRow}`}
       >
         <a className="min-w-20 min-h-20 flex  flex-row" href="/">
           <div className="w-20 h-20 flex">
             <img
-              className={`h-2/3 w-2/3 self-center rounded-2xl object-cover`}
+              className={`  min-w-[50px] min-h-[50px] size-2/3 self-center rounded-2xl object-cover`}
               src={logo}
               alt=""
             />
           </div>
-          <div className="min-w-10 w-3/4 max-w-60 self-center">
-            <div className="align-[inherit] w-full overflow-hidden">{name}</div>
+          <div className="min-w-10 w-3/4 h-full  self-center ">
+            <div
+              className={`align-[inherit] max-w-[50px]  xl:max-w-[450px] sm:max-w-[150px] overflow-hidden overflow-ellipsis whitespace-nowrap w-full`}
+            >
+              {name}
+            </div>
           </div>
         </a>
       </td>
@@ -41,28 +45,81 @@ const StockRow = ({
         {name}
       </td> */}
       <td
-        className={`w-1/12 min-w-6 border-b-2 px-6 text-center self-center ${style.tableRow}`}
+        className={` border-b-2 px-6 text-center self-center ${style.tableRow}`}
       >
         {ticker}
       </td>
       <td
-        className={`w-1/12 min-w-6 border-b-2 text-center overflow-x-hidden truncate px-6 self-center ${style.tableRow}`}
+        className={` border-b-2 text-center overflow-x-hidden truncate px-6 self-center ${style.tableRow}`}
       >
         {mentions}
       </td>
-      <td
-        className={`w-1/12 min-w-6 text-center px-6 self-center ${style.tableRow}`}
-      >
+      <td className={` text-center px-6 self-center ${style.tableRow}`}>
         {comments}
       </td>
-      <td
-        className={`w-1/12 pr-5 min-w-6 text-center px-6 self-center ${style.tableRow}`}
-      >
+      <td className={`  text-center px-6 self-center ${style.tableRow}`}>
         {upvotes}
       </td>
     </>
   );
 };
+
+// const StockRow = ({
+//   name,
+//   ticker,
+//   mentions,
+//   logo,
+//   comments,
+//   upvotes,
+// }: StockRowProps) => {
+//   return (
+//     <>
+//       <td
+//         className={`px-5 w-1/3 border-b-2 min-w-24 max-w-[33.33333%] hover:underline hover:cursor-pointer self-center ${style.tableRow}`}
+//       >
+//         <a className="min-w-20 min-h-20 flex  flex-row" href="/">
+//           <div className="w-20 h-20 flex">
+//             <img
+//               className={`  min-w-[50px] min-h-[50px] size-2/3 self-center rounded-2xl object-cover`}
+//               src={logo}
+//               alt=""
+//             />
+//           </div>
+//           <div className="min-w-10 w-3/4 h-full  self-center ">
+//             <div
+//               className={`align-[inherit] max-w-[50px]  xl:max-w-[100%] sm:max-w-[150px] overflow-hidden overflow-ellipsis whitespace-nowrap w-full`}
+//             >
+//               {name}
+//             </div>
+//           </div>
+//         </a>
+//       </td>
+//       {/* <td className="w-1/4 pr-6 overflow-x-hidden self-center text-left">
+//         {name}
+//       </td> */}
+//       <td
+//         className={`w-1/6 min-w-6 border-b-2 px-6 text-center self-center ${style.tableRow}`}
+//       >
+//         {ticker}
+//       </td>
+//       <td
+//         className={`w-1/6   min-w-6 border-b-2 text-center overflow-x-hidden truncate px-6 self-center ${style.tableRow}`}
+//       >
+//         {mentions}
+//       </td>
+//       <td
+//         className={`w-1/6 min-w-6 text-center px-6 self-center ${style.tableRow}`}
+//       >
+//         {comments}
+//       </td>
+//       <td
+//         className={`w-1/6 pr-5 min-w-6 text-center px-6 self-center ${style.tableRow}`}
+//       >
+//         {upvotes}
+//       </td>
+//     </>
+//   );
+// };
 
 export default StockRow;
 
