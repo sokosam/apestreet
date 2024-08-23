@@ -7,3 +7,14 @@
   width: 80%;
   height: 80%;
 }
+
+.tableRow {
+  /* display: table-cell;
+  vertical-align: inherit;
+  font-weight: bold;
+  text-align: -internal-center;
+  unicode-bidi: isolate; */
+  border-width: 0px 0px 2px 0px;
+  border-style: solid;
+  border-color: #f7f7f7;
+}

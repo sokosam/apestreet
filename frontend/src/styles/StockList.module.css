@@ -1,5 +1,35 @@
 .bg {
-  background: #f7f7f7;
+  background: white;
   min-width: 600px;
-  /* border: red solid 5px; */
+  border-color: inherit;
+}
+
+.tableHead {
+  display: table-header-group;
+  vertical-align: middle;
+  unicode-bidi: isolate;
+  border-color: inherit;
+}
+
+.tableRow {
+  display: table-row;
+  vertical-align: inherit;
+  unicode-bidi: isolate;
+  border-color: inherit;
+}
+
+.tableChildren {
+  display: table-row;
+  vertical-align: inherit;
+  unicode-bidi: isolate;
+  border-color: inherit;
+}
+
+.tableItem {
+  display: table-cell;
+  vertical-align: inherit;
+  font-weight: bold;
+  text-align: -internal-center;
+  unicode-bidi: isolate;
+  padding: 0 20px;
 }

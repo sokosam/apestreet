@@ -14,12 +14,30 @@ const App = () => {
   return (
     <>
       <Navbar onLogoClick={() => {}}></Navbar>
-      <div className="w-6/12 h-fit">
+      <div className="mx-auto my-auto w-1/2 h-fit max-w-[1000px]">
         <StockList title="test title">
+          <StockRow
+            name="asddasdasaawdwaddadsasdasdasdsadsadadasdawdawdwadawdawawdadadawdwasddawerewewerwwerwerewsadasasdsaIA"
+            logo={nvidia}
+            mentions={1}
+            ticker="NVDA"
+            comments={10}
+            onInteraction={() => {}}
+            upvotes={3}
+          ></StockRow>
           <StockRow
             name="NVIDIA"
             logo={nvidia}
-            mentions={999999}
+            mentions={100}
+            ticker="NVDA"
+            comments={10}
+            onInteraction={() => {}}
+            upvotes={3}
+          ></StockRow>
+          <StockRow
+            name="NVIDIA"
+            logo={nvidia}
+            mentions={100}
             ticker="NVDA"
             comments={10}
             onInteraction={() => {}}
