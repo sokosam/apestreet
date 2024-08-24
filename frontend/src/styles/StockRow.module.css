@@ -17,5 +17,16 @@
   border-width: 0px 0px 2px 0px;
   border-style: solid;
   border-color: #f7f7f7;
-  padding: 0 20px;
+
+  min-width: fit-content;
+  text-align: left;
+}
+
+.onFire {
+  border-radius: 25px;
+  background-color: rgb(243, 109, 43);
+  color: white;
+}
+
+:hover.onFire {
 }

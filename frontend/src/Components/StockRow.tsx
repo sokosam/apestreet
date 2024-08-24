@@ -8,11 +8,13 @@ interface StockRowProps {
   comments: number;
   logo?: string;
   upvotes: number;
+  fire?: boolean;
   onInteraction: () => void;
 }
 
 const StockRow = ({
   name,
+  fire,
   ticker,
   mentions,
   logo,
@@ -32,9 +34,9 @@ const StockRow = ({
               alt=""
             />
           </div>
-          <div className="min-w-10 w-3/4 h-full  self-center ">
+          <div className=" px-5 min-w-10 xl:min-w-[75%] w-3/4    self-center ">
             <div
-              className={`align-[inherit] max-w-[50px]  xl:max-w-[450px] sm:max-w-[150px] overflow-hidden overflow-ellipsis whitespace-nowrap w-full`}
+              className={`align-[inherit] max-w-[50px] xl:min-w-[100%] xl:max-w-[200px] sm:max-w-[150px] overflow-hidden overflow-ellipsis whitespace-nowrap w-full`}
             >
               {name}
             </div>
@@ -44,20 +46,24 @@ const StockRow = ({
       {/* <td className="w-1/4 pr-6 overflow-x-hidden self-center text-left">
         {name}
       </td> */}
-      <td
-        className={` border-b-2 px-6 text-center self-center ${style.tableRow}`}
-      >
-        {ticker}
+      <td className={` border-b-2 px-6 text-center  ${style.tableRow}`}>
+        <div className={`w-fit px-3 ${fire ? style.onFire : ""} `}>
+          {ticker}
+        </div>
       </td>
       <td
         className={` border-b-2 text-center overflow-x-hidden truncate px-6 self-center ${style.tableRow}`}
       >
         {mentions}
       </td>
-      <td className={` text-center px-6 self-center ${style.tableRow}`}>
+      <td
+        className={` text-center px-6 truncate self-center ${style.tableRow}`}
+      >
         {comments}
       </td>
-      <td className={`  text-center px-6 self-center ${style.tableRow}`}>
+      <td
+        className={`  text-center px-6 truncate self-center ${style.tableRow}`}
+      >
         {upvotes}
       </td>
     </>

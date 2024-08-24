@@ -3,6 +3,7 @@
   min-width: 600px;
   border-color: inherit;
   border-radius: inherit;
+  table-layout: fixed;
 }
 
 .tableHead {

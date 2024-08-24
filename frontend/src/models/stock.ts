@@ -5,4 +5,5 @@ export default interface Stock {
   ticker: string;
   comments: number;
   upVotes: number;
+  fire?: boolean;
 }
