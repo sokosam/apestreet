@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
+import createHttpError, { isHttpError } from "http-errors";
 
 export default function errorHandler(
   error: unknown,
@@ -6,11 +7,11 @@ export default function errorHandler(
   res: Response,
   next: NextFunction
 ) {
-  console.error(error);
   let statusCode = 500;
   let errorMessage = "An unknown error has occured!";
-  if (typeof error === "number") {
-    statusCode = error;
+  if (isHttpError(error)) {
+    statusCode = error.statusCode;
+    errorMessage = error.message;
   }
   res.status(statusCode).json({ error: errorMessage });
 }
