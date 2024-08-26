@@ -4,6 +4,36 @@ import env from "../utils/validEnv";
 import createHttpError from "http-errors";
 import bcrypt from "bcrypt";
 
+export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
+  try {
+    const client = await getPool(env.DB_URI);
+    if (!client)
+      throw createHttpError(
+        500,
+        "Something went wrong connecting to Datebase!"
+      );
+
+    const response = await client.query(
+      "SELECT id, username, email FROM USERBASE WHERE 1=1 AND (id = $1)",
+      [req.session.userId]
+    );
+    if (!response)
+      throw createHttpError(
+        500,
+        "Something went wrong connecting to Datebase!"
+      );
+    else if (response.rowCount == 0) {
+      throw createHttpError(401, "Unauthorized");
+    }
+    res.status(200).json(response.rows[0]);
+    // res.status(200).json({userId.rows[0]["id"]})
+  } catch (error) {
+    console.log(error);
+
+    next(error);
+  }
+};
+
 interface SignUpUserBody {
   username?: string;
   email?: string;
@@ -22,7 +52,7 @@ export const signUpUser: RequestHandler<
   const email = req.body.email;
   const queryCheckExist =
     "SELECT COUNT(*) FROM USERBASE WHERE 1=1 AND (username = $1 OR email =$2)";
-  const query = `INSERT INTO USERBASE ("username", "email", "password") VALUES ($1, $2, $3)`;
+  const query = `INSERT INTO USERBASE ("username", "email", "password") VALUES ($1, $2, $3);`;
 
   try {
     if (!username || !email || !passwordRaw) {
@@ -52,6 +82,18 @@ export const signUpUser: RequestHandler<
         email,
         passwordHashed,
       ]);
+
+      const userId = await client.query(
+        "SELECT id FROM USERBASE WHERE 1=1 AND (username = $1)",
+        [username]
+      );
+      if (!userId)
+        throw createHttpError(
+          500,
+          "Something went wrong connecting to Datebase!."
+        );
+
+      req.session.userId = userId.rows[0]["id"];
 
       res.status(200).send("Successfully added user");
     } else {
@@ -98,9 +140,33 @@ export const login: RequestHandler<
       }
     }
 
+    const userId = await client.query(
+      "SELECT id FROM USERBASE WHERE 1=1 AND (username = $1)",
+      [username]
+    );
+    if (!userId)
+      throw createHttpError(
+        500,
+        "Something went wrong connecting to Datebase!."
+      );
+
+    req.session.userId = userId.rows[0]["id"];
+
     res.status(201).send("loggedIn");
   } catch (error) {
     console.error(error);
     next(error);
   }
+};
+
+export const logout: RequestHandler = (req, res, next) => {
+  req.session.destroy((error) => {
+    if (error) {
+      console.log(error);
+      next(error);
+    } else {
+      res.clearCookie("connect.sid");
+      res.sendStatus(200);
+    }
+  });
 };

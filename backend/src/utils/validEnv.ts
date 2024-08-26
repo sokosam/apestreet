@@ -5,4 +5,5 @@ import "dotenv/config";
 export default cleanEnv(process.env, {
   DB_URI: str(),
   PORT: str(),
+  SECRET: str(),
 });

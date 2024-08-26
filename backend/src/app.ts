@@ -3,14 +3,31 @@ import errorHandler from "./middleware/errorHandler";
 import getPool from "./database";
 import env from "./utils/validEnv";
 import userRoutes from "./routes/userRoutes";
-import { createColumnProps, createTable } from "./utils/createTable";
+import { createTable } from "./utils/createTable";
+import session from "express-session";
+
+declare module "express-session" {
+  interface SessionData {
+    userId: string;
+  }
+}
 
 const app = express();
+
+app.use(
+  session({
+    secret: env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+    // cookie: { secure: true },
+  })
+);
 
 // NOT FOR PRODUCTION:
 // Development database creation:
 createTable("USERBASE", env.DB_URI, [
   {
+    // Primary key will override the other two as theres no need.
     column_name: "ID",
     not_null: true,
     primary_key: true,
