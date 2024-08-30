@@ -4,10 +4,13 @@ import createHttpError from "http-errors";
 
 export interface createColumnProps {
   column_name: string;
-  type: string;
+  type?: string;
   unique?: boolean;
+  reference?: string;
+  onDelete?: string;
   primary_key?: boolean;
   not_null?: boolean;
+  kwargs?: string;
 }
 export const createTable = async (
   table_name: string,
@@ -21,10 +24,22 @@ export const createTable = async (
       custom_query += columns[i].column_name + " SERIAL PRIMARY KEY, ";
       continue;
     }
-    custom_query += columns[i].column_name + ` ${columns[i].type}`;
+
+    custom_query += columns[i].type
+      ? columns[i].column_name + ` ${columns[i].type}`
+      : columns[i].column_name;
+
+    custom_query += columns[i].reference
+      ? " REFERENCES " + columns[i].reference
+      : "";
+
     custom_query +=
       columns[i].unique || columns[i].primary_key ? " UNIQUE" : "";
     custom_query += columns[i].not_null ? " NOT NULL" : "";
+    custom_query += columns[i].onDelete
+      ? " ON DELETE " + columns[i].onDelete
+      : "";
+    custom_query += columns[i].kwargs ? " " + columns[i].kwargs : "";
     custom_query += ", ";
   }
   custom_query = custom_query.slice(0, -2); // Remove the last comma
@@ -37,6 +52,7 @@ export const createTable = async (
     await client.query(query + custom_query);
     console.log("Table created with command: " + query + custom_query);
   } catch (error) {
+    console.log("Table failed to create with command: " + query + custom_query);
     console.error(error);
   }
 };

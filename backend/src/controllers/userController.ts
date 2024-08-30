@@ -90,7 +90,7 @@ export const signUpUser: RequestHandler<
       if (!userId)
         throw createHttpError(
           500,
-          "Something went wrong connecting to Datebase!."
+          "Something went wrong connecting to Datebase!"
         );
 
       req.session.userId = userId.rows[0]["id"];

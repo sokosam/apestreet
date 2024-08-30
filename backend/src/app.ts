@@ -29,7 +29,6 @@ createTable("USERBASE", env.DB_URI, [
   {
     // Primary key will override the other two as theres no need.
     column_name: "ID",
-    not_null: true,
     primary_key: true,
     type: "INTEGER",
   },
@@ -50,6 +49,29 @@ createTable("USERBASE", env.DB_URI, [
     not_null: true,
     unique: false,
     type: "VARCHAR(60)",
+  },
+]);
+
+createTable("STOCK_WATCHLIST", env.DB_URI, [
+  {
+    column_name: "ID",
+    primary_key: true,
+    type: "INTEGER",
+  },
+  {
+    column_name: "user_id",
+    reference: "USERBASE(ID)",
+    type: "INTEGER",
+    onDelete: "CASCADE",
+  },
+  {
+    column_name: "STOCK_SYMBOL",
+    type: "VARCHAR(10)",
+    not_null: true,
+  },
+  {
+    column_name: "CREATED_AT",
+    kwargs: "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
   },
 ]);
 
