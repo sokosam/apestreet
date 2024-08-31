@@ -50,6 +50,7 @@ export const signUpUser: RequestHandler<
   const username = req.body.username;
   const passwordRaw = req.body.password;
   const email = req.body.email;
+  //May be inefficient, check on this later.
   const queryCheckExist =
     "SELECT COUNT(*) FROM USERBASE WHERE 1=1 AND (username = $1 OR email =$2)";
   const query = `INSERT INTO USERBASE ("username", "email", "password") VALUES ($1, $2, $3);`;
@@ -62,43 +63,40 @@ export const signUpUser: RequestHandler<
     const passwordHashed = await bcrypt.hash(passwordRaw, 10);
 
     const client = await getPool(env.DB_URI);
-    if (client) {
-      const check = await client.query(queryCheckExist, [username, email]);
-
-      if (check) {
-        if (check.rows[0]["count"] == "0") {
-        } else {
-          throw createHttpError(409, "Username or Email already registered.");
-        }
-      } else {
-        throw createHttpError(
-          500,
-          "Something went wrong connecting to Datebase!."
-        );
-      }
-
-      const result = await client.query(query, [
-        username,
-        email,
-        passwordHashed,
-      ]);
-
-      const userId = await client.query(
-        "SELECT id FROM USERBASE WHERE 1=1 AND (username = $1)",
-        [username]
+    if (!client) {
+      throw createHttpError(
+        500,
+        "Something went wrong connecting to Datebase!."
       );
-      if (!userId)
-        throw createHttpError(
-          500,
-          "Something went wrong connecting to Datebase!"
-        );
-
-      req.session.userId = userId.rows[0]["id"];
-
-      res.status(200).send("Successfully added user");
-    } else {
-      throw createHttpError(500, "Something went wrong inserting!");
     }
+
+    const check = await client.query(queryCheckExist, [username, email]);
+    if (!check) {
+      throw createHttpError(
+        500,
+        "Something went wrong connecting to Datebase!."
+      );
+    }
+
+    if (check.rows[0]["count"] != "0") {
+      throw createHttpError(409, "Username or Email already registered.");
+    }
+
+    const result = await client.query(query, [username, email, passwordHashed]);
+
+    const userId = await client.query(
+      "SELECT id FROM USERBASE WHERE 1=1 AND (username = $1)",
+      [username]
+    );
+    if (!userId)
+      throw createHttpError(
+        500,
+        "Something went wrong connecting to Datebase!"
+      );
+
+    req.session.userId = userId.rows[0]["id"];
+
+    res.status(200).send("Successfully added user");
   } catch (error) {
     console.log(error);
     next(error);

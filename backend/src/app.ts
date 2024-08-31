@@ -3,7 +3,9 @@ import errorHandler from "./middleware/errorHandler";
 import getPool from "./database";
 import env from "./utils/validEnv";
 import userRoutes from "./routes/userRoutes";
+import userStockRoutes from "./routes/userStocksRoute";
 import { createTable } from "./utils/createTable";
+import isAuthenticated from "./auth/auth";
 import session from "express-session";
 
 declare module "express-session" {
@@ -80,6 +82,7 @@ const client = getPool(env.DB_URI);
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
+app.use("/api/userStocks", isAuthenticated, userStockRoutes);
 
 app.listen(env.PORT, () => {
   console.log("Server is running on port " + env.PORT);
