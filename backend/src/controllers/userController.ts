@@ -15,7 +15,7 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
 
     const response = await client.query(
       "SELECT id, username, email FROM USERBASE WHERE 1=1 AND (id = $1)",
-      [req.session.userId]
+      [req.session.user_id]
     );
     if (!response)
       throw createHttpError(
@@ -26,7 +26,7 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
       throw createHttpError(401, "Unauthorized");
     }
     res.status(200).json(response.rows[0]);
-    // res.status(200).json({userId.rows[0]["id"]})
+    // res.status(200).json({user_id.rows[0]["id"]})
   } catch (error) {
     console.log(error);
 
@@ -84,17 +84,18 @@ export const signUpUser: RequestHandler<
 
     const result = await client.query(query, [username, email, passwordHashed]);
 
-    const userId = await client.query(
+    const user_id = await client.query(
       "SELECT id FROM USERBASE WHERE 1=1 AND (username = $1)",
       [username]
     );
-    if (!userId)
+    if (!user_id)
       throw createHttpError(
         500,
         "Something went wrong connecting to Datebase!"
       );
 
-    req.session.userId = userId.rows[0]["id"];
+    req.session.user_id = user_id.rows[0]["id"];
+    req.session.username = username;
 
     res.status(200).send("Successfully added user");
   } catch (error) {
@@ -138,17 +139,18 @@ export const login: RequestHandler<
       }
     }
 
-    const userId = await client.query(
+    const user_id = await client.query(
       "SELECT id FROM USERBASE WHERE 1=1 AND (username = $1)",
       [username]
     );
-    if (!userId)
+    if (!user_id)
       throw createHttpError(
         500,
         "Something went wrong connecting to Datebase!."
       );
 
-    req.session.userId = userId.rows[0]["id"];
+    req.session.user_id = user_id.rows[0]["id"];
+    req.session.username = username;
 
     res.status(201).send("loggedIn");
   } catch (error) {

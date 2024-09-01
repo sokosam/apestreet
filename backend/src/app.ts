@@ -1,16 +1,19 @@
-import express, { NextFunction, Request, Response } from "express";
-import errorHandler from "./middleware/errorHandler";
+import express from "express";
+import session from "express-session";
+import isAuthenticated from "./auth/auth";
 import getPool from "./database";
-import env from "./utils/validEnv";
+import errorHandler from "./middleware/errorHandler";
 import userRoutes from "./routes/userRoutes";
 import userStockRoutes from "./routes/userStocksRoute";
-import { createTable } from "./utils/createTable";
-import isAuthenticated from "./auth/auth";
-import session from "express-session";
+import createStockWatchlist from "./utils/createStockWatchlist";
+import createUserbase from "./utils/createUserbase";
+import env from "./utils/validEnv";
+import redisStore from "./redis_session.db";
 
 declare module "express-session" {
   interface SessionData {
-    userId: string;
+    user_id: string;
+    username: string;
   }
 }
 
@@ -18,64 +21,18 @@ const app = express();
 
 app.use(
   session({
+    store: redisStore,
     secret: env.SECRET,
     resave: false,
     saveUninitialized: false,
-    // cookie: { secure: true },
+    cookie: { secure: false, maxAge: 1000 * 60 * 60 * 3 },
   })
 );
 
 // NOT FOR PRODUCTION:
 // Development database creation:
-createTable("USERBASE", env.DB_URI, [
-  {
-    // Primary key will override the other two as theres no need.
-    column_name: "ID",
-    primary_key: true,
-    type: "INTEGER",
-  },
-  {
-    column_name: "USERNAME",
-    not_null: true,
-    unique: false,
-    type: "VARCHAR(50)",
-  },
-  {
-    column_name: "EMAIL",
-    not_null: true,
-    unique: true,
-    type: "VARCHAR(50)",
-  },
-  {
-    column_name: "PASSWORD",
-    not_null: true,
-    unique: false,
-    type: "VARCHAR(60)",
-  },
-]);
-
-createTable("STOCK_WATCHLIST", env.DB_URI, [
-  {
-    column_name: "ID",
-    primary_key: true,
-    type: "INTEGER",
-  },
-  {
-    column_name: "user_id",
-    reference: "USERBASE(ID)",
-    type: "INTEGER",
-    onDelete: "CASCADE",
-  },
-  {
-    column_name: "STOCK_SYMBOL",
-    type: "VARCHAR(10)",
-    not_null: true,
-  },
-  {
-    column_name: "CREATED_AT",
-    kwargs: "TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
-  },
-]);
+createStockWatchlist();
+createUserbase();
 
 const client = getPool(env.DB_URI);
 
