@@ -1,6 +1,6 @@
-import React from "react";
 import logo from "../assets/monki.jpg";
 // import styles from "../styles/Navbar.module.css";
+import SignUpPopUp from "./SignUpPopUp";
 
 interface NavbarProps {
   onLogoClick: () => void;
@@ -11,9 +11,9 @@ const Navbar = ({ onLogoClick }: NavbarProps) => {
     <>
       <nav className="min-h-16 max-h-32  flex">
         <div
-          className={`p-4 max-w-screen-xl py-5 flex flex-wrap-reverse justify-between align-middle`}
+          className={`p-4 max-w-screen-xl min-w-fit py-5 flex flex-wrap-reverse justify-between align-middle`}
         >
-          <a className="h-full flex space-x-3 rtl:space-x-reverse" href="/">
+          <a className="h-full  flex space-x-3 rtl:space-x-reverse" href="/">
             <img
               className={` h-full`}
               onClick={onLogoClick}
@@ -27,6 +27,13 @@ const Navbar = ({ onLogoClick }: NavbarProps) => {
             </p>
           </a>
           <div className=" hidden md:block justify-between md:w-auto align-middle"></div>
+        </div>
+        <div className={`grow-[1] flex items-center justify-end`}>
+          <div>
+            <SignUpPopUp></SignUpPopUp>
+          </div>
+
+          <div className="w-20">Login</div>
         </div>
       </nav>
     </>

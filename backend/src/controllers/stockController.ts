@@ -18,6 +18,8 @@ export const getStockWatchList: RequestHandler = async (req, res, next) => {
     const client = await getDBClient();
 
     const response = await client.query(query, [user_id]);
+
+    res.json(response.rows);
   } catch (error) {
     next(error);
   }
@@ -35,7 +37,6 @@ export const createUserStock: RequestHandler<
 > = async (req, res, next) => {
   const user_id = req.session.user_id;
   const stock_symbol = req.body.stock_symbol;
-  const verification = `SELECT COUNT(*) FROM USERBASE WHERE 1=1 AND  `;
   const query = `INSERT INTO stock_watchlist ("user_id", "stock_symbol") VALUES ($1, $2);`;
   const checkExist = `SELECT COUNT(*) FROM stock_watchlist WHERE 1=1 AND (stock_symbol = $1 AND user_id = $2)`;
   try {

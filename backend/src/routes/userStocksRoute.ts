@@ -11,4 +11,6 @@ router.post("/create", createUserStock);
 
 router.post("/delete", deleteStock);
 
+router.get("/", getStockWatchList);
+
 export default router;

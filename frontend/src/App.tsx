@@ -1,8 +1,7 @@
-import React from "react";
 import Navbar from "./Components/Navbar";
-import StockRow from "./Components/StockRow";
 import StockList from "./Components/StockList";
-import nvidia from "./assets/NVIDIA.png";
+import StockRow from "./Components/StockRow";
+import nvidia from "./assets/NVDA.png";
 // import { useState } from "react";
 // import Stock from "./models/stock";
 
@@ -34,7 +33,7 @@ const App = () => {
           ></StockRow>
           <StockRow
             name="NVIDIA"
-            logo={nvidia}
+            logo="dssd"
             mentions={100}
             ticker="NVDA"
             comments={10}

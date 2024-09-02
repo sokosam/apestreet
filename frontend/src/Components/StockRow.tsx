@@ -1,5 +1,5 @@
-import React from "react";
 import style from "../styles/StockRow.module.css";
+import { useState } from "react";
 
 interface StockRowProps {
   name: string;
@@ -21,17 +21,22 @@ const StockRow = ({
   comments,
   upvotes,
 }: StockRowProps) => {
+  const [imgSrc, setImgSrc] = useState(logo);
+  const handleError = () => {
+    setImgSrc("../src/assets/defaultImg.jpg");
+  };
   return (
     <>
       <td
         className={`border-b-2 hover:underline hover:cursor-pointer self-center ${style.tableRow}`}
       >
         <a className="min-w-20 min-h-20 flex  flex-row" href="/">
-          <div className="w-20 h-20 flex">
+          <div className="w-20 h-20 mx-1 flex">
             <img
               className={`  min-w-[50px] min-h-[50px] size-2/3 self-center rounded-2xl object-cover`}
-              src={logo}
+              src={imgSrc}
               alt=""
+              onError={handleError}
             />
           </div>
           <div className=" px-5 min-w-10 xl:min-w-[75%] w-3/4    self-center ">
