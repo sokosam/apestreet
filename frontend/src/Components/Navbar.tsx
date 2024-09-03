@@ -29,7 +29,7 @@ const Navbar = ({ onLogoClick }: NavbarProps) => {
           <div className=" hidden md:block justify-between md:w-auto align-middle"></div>
         </div>
         <div className={`grow-[1] flex items-center justify-end`}>
-          <div>
+          <div className="border-1 rounded-md ">
             <SignUpPopUp></SignUpPopUp>
           </div>
 

@@ -1,0 +1,15 @@
+.formInput {
+  margin: 10px 0px;
+  border-bottom: solid 1px #6a6363;
+  border-radius: 4px;
+  caret-color: #6a6363;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.formInput::placeholder {
+  padding-left: 4px;
+}
+
+.formInput:focus {
+  outline: none;
+}
