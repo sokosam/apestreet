@@ -29,7 +29,6 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     // res.status(200).json({user_id.rows[0]["id"]})
   } catch (error) {
     console.log(error);
-
     next(error);
   }
 };
@@ -97,7 +96,9 @@ export const signUpUser: RequestHandler<
     req.session.user_id = user_id.rows[0]["id"];
     req.session.username = username;
 
-    res.status(200).send("Successfully added user");
+    res
+      .status(200)
+      .json({ username: username, user_id: user_id.rows[0]["id"] });
   } catch (error) {
     console.log(error);
     next(error);
@@ -152,7 +153,9 @@ export const login: RequestHandler<
     req.session.user_id = user_id.rows[0]["id"];
     req.session.username = username;
 
-    res.status(201).send("loggedIn");
+    res
+      .status(201)
+      .json({ username: username, user_id: user_id.rows[0]["id"] });
   } catch (error) {
     console.error(error);
     next(error);

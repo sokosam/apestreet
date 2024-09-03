@@ -1,7 +1,6 @@
 .formInput {
   margin: 10px 0px;
   border-bottom: solid 1px #6a6363;
-  border-radius: 4px;
   caret-color: #6a6363;
   color: rgba(0, 0, 0, 0.5);
 }
@@ -12,4 +11,26 @@
 
 .formInput:focus {
   outline: none;
+}
+
+.content {
+  transition: all 0.5s linear;
+}
+
+/* .submitButton:hover {
+  cursor: pointer;
+} */
+
+.submitButton {
+  background-color: #6a6363;
+  color: white;
+  width: 20%;
+  min-width: inherit;
+  border: solid 2px black;
+  border-radius: 5px;
+}
+
+.submitButton:hover {
+  transition: all 0.5s linear;
+  background-color: blue;
 }

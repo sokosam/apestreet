@@ -23,3 +23,31 @@ export async function getLoggedInUser(): Promise<{
   const response = await fetchData("localhost:5000/api/users");
   return response.json();
 }
+
+interface signUpProps {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export async function signUpUser({
+  username,
+  email,
+  password,
+}: signUpProps): Promise<{
+  username?: string;
+  user_id?: string;
+}> {
+  const response = await fetchData("http://localhost:5000/api/users/signUp", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: username,
+      email: email,
+      password: password,
+    }),
+  });
+  return response.json();
+}

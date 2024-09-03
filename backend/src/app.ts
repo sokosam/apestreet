@@ -9,6 +9,7 @@ import createStockWatchlist from "./utils/createStockWatchlist";
 import createUserbase from "./utils/createUserbase";
 import env from "./utils/validEnv";
 import redisStore from "./redis_session.db";
+import cors from "cors";
 
 declare module "express-session" {
   interface SessionData {
@@ -18,6 +19,14 @@ declare module "express-session" {
 }
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow requests from this origin
+    methods: ["GET", "POST", "PATCH", "OPTIONS"], // Allow these HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow these headers
+  })
+);
 
 app.use(
   session({

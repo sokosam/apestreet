@@ -5,8 +5,10 @@ const StyledPopup = styled(Popup)`
   &-content {
     margin: auto;
     background: rgb(255, 255, 255);
-    min-width: 350px;
-    width: 50%;
+    min-width: fit;
+    min-height: fit;
+    max-width: 50%;
+    width: 400px;
     padding: 5px;
     border: 2px;
     border-radius: 10px;
@@ -22,6 +24,7 @@ const StyledPopup = styled(Popup)`
   }
 
   &-overlay {
+    backdrop-filter: blur(10px);
     background: rgba(0, 0, 0, 0.5);
   }
   [data-popup="tooltip"].&-overlay {

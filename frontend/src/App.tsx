@@ -80,6 +80,16 @@ const App = () => {
             onInteraction={() => {}}
             upvotes={3}
           ></StockRow>
+          <StockRow
+            name="kimstock"
+            logo={nvidia}
+            mentions={100}
+            ticker="KIM"
+            fire={true}
+            comments={10}
+            onInteraction={() => {}}
+            upvotes={3}
+          ></StockRow>
           <td></td>
         </StockList>
       </div>
