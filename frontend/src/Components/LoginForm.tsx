@@ -1,7 +1,7 @@
-import { SubmitHandler, useForm } from "react-hook-form";
-import styles from "../styles/Form.module.css";
 import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import * as UserApi from "../network/users";
+import styles from "../styles/Form.module.css";
 
 interface FormValues {
   username: string;
@@ -10,12 +10,12 @@ interface FormValues {
   password_confirm: string;
 }
 
-const SignUpForm = () => {
+const LoginForm = () => {
   const [emailVerification, setEmailVerification] = useState<boolean>(false);
-  const { register, watch, handleSubmit } = useForm<FormValues>();
+  const { register, handleSubmit } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    const response = await UserApi.signUpUser({
+    const response = await UserApi.loginUser({
       username: data.username,
       email: data.email,
       password: data.password,
@@ -41,28 +41,15 @@ const SignUpForm = () => {
               {...register("email", { required: true, minLength: 4 })}
               placeholder="Email"
             />
-            <input
-              className={styles.formInput}
-              {...register("password", { required: true, minLength: 4 })}
-              placeholder="Password"
-            />
             <div className="flex flex-col mb-[5px] ">
               <input
-                className={`${styles.formInput} `}
-                {...register("password_confirm", {
-                  required: true,
-                  minLength: 4,
-                  validate: (val: string) => {
-                    if (val != watch("password")) {
-                      return "Passwords do not match!";
-                    }
-                  },
-                })}
-                placeholder="Confirm Password"
+                className={`${styles.formInput} mb-0    `}
+                {...register("password", { required: true, minLength: 4 })}
+                placeholder="Password"
               />
-              {/* <div className="self-end text-xs text-blue-400">
+              <div className="self-end text-xs text-blue-400">
                 Forget Password?
-              </div> */}
+              </div>
             </div>
 
             <button className={`${styles.submitButton} my-1 `} type="submit">
@@ -75,4 +62,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default LoginForm;

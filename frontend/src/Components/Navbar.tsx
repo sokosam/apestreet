@@ -1,6 +1,7 @@
 import logo from "../assets/monki.jpg";
 // import styles from "../styles/Navbar.module.css";
 import SignUpPopUp from "./SignUpPopUp";
+import LoginPopUp from "./LoginPopUp";
 
 interface NavbarProps {
   onLogoClick: () => void;
@@ -28,12 +29,14 @@ const Navbar = ({ onLogoClick }: NavbarProps) => {
           </a>
           <div className=" hidden md:block justify-between md:w-auto align-middle"></div>
         </div>
-        <div className={`grow-[1] flex items-center justify-end`}>
+        <div className={`grow-[1] flex items-center justify-end space-x-5 `}>
           <div className="border-1 rounded-md ">
             <SignUpPopUp></SignUpPopUp>
           </div>
 
-          <div className="w-20">Login</div>
+          <div className="w-20">
+            <LoginPopUp></LoginPopUp>
+          </div>
         </div>
       </nav>
     </>

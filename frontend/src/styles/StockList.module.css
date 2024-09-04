@@ -36,4 +36,5 @@
   text-align: -internal-center;
   unicode-bidi: isolate;
   padding: 0 20px;
+  text-wrap: wrap;
 }

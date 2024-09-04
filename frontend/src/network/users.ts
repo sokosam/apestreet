@@ -24,7 +24,7 @@ export async function getLoggedInUser(): Promise<{
   return response.json();
 }
 
-interface signUpProps {
+interface UserProps {
   username: string;
   email: string;
   password: string;
@@ -34,7 +34,7 @@ export async function signUpUser({
   username,
   email,
   password,
-}: signUpProps): Promise<{
+}: UserProps): Promise<{
   username?: string;
   user_id?: string;
 }> {
@@ -51,3 +51,25 @@ export async function signUpUser({
   });
   return response.json();
 }
+
+export const loginUser = async ({
+  username,
+  email,
+  password,
+}: UserProps): Promise<{
+  username?: string;
+  user_id?: string;
+}> => {
+  const response = await fetchData("http://localhost:5000/api/users/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: username,
+      email: email,
+      password: password,
+    }),
+  });
+  return response.json();
+};
