@@ -29,6 +29,7 @@ const LoginForm = () => {
   return (
     <form className="bg-inherit" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col items-center bg-inherit content">
+        <input className="opacity-0 size-0 " type="text" />
         {!emailVerification && (
           <>
             <input

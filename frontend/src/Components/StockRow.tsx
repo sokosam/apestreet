@@ -21,7 +21,7 @@ const StockRow = ({
   comments,
   upvotes,
 }: StockRowProps) => {
-  const [imgSrc, setImgSrc] = useState(logo);
+  const [imgSrc, setImgSrc] = useState(logo ? logo : "None");
   const handleError = () => {
     setImgSrc("../src/assets/defaultImg.jpg");
   };

@@ -19,7 +19,10 @@ export const getStockWatchList: RequestHandler = async (req, res, next) => {
 
     const response = await client.query(query, [user_id]);
 
-    res.json(response.rows);
+    res
+      .status(200)
+      .header({ "Access-Control-Allow-Credentials": true })
+      .json(response.rows);
   } catch (error) {
     next(error);
   }
@@ -56,7 +59,10 @@ export const createUserStock: RequestHandler<
 
     const result = await client.query(query, [user_id, stock_symbol]);
 
-    res.status(200).send("Successfully created user stock!");
+    res
+      .status(200)
+      .header({ "Access-Control-Allow-Credentials": true })
+      .send("Successfully created user stock!");
   } catch (error) {
     console.log(error);
 
@@ -91,7 +97,10 @@ export const deleteStock: RequestHandler<
 
     const result = await client.query(query, [stock_symbol, user_id]);
 
-    res.status(200).send("Successfully deleted user stock!");
+    res
+      .status(200)
+      .header({ "Access-Control-Allow-Credentials": true })
+      .send("Successfully deleted user stock!");
   } catch (error) {
     console.log(error);
     next(error);

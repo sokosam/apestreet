@@ -20,7 +20,10 @@ export async function getLoggedInUser(): Promise<{
   username: string;
   email: string;
 }> {
-  const response = await fetchData("localhost:5000/api/users");
+  const response = await fetchData("http://localhost:5000/api/users", {
+    credentials: "include",
+    method: "GET",
+  });
   return response.json();
 }
 
@@ -40,6 +43,7 @@ export async function signUpUser({
 }> {
   const response = await fetchData("http://localhost:5000/api/users/signUp", {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -62,6 +66,7 @@ export const loginUser = async ({
 }> => {
   const response = await fetchData("http://localhost:5000/api/users/login", {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -72,4 +77,11 @@ export const loginUser = async ({
     }),
   });
   return response.json();
+};
+
+export const logout = async () => {
+  await fetchData("http://localhost:5000/api/users/logout", {
+    credentials: "include",
+    method: "POST",
+  });
 };

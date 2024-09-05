@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "../styles/Form.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as UserApi from "../network/users";
 
 interface FormValues {
@@ -13,6 +13,11 @@ interface FormValues {
 const SignUpForm = () => {
   const [emailVerification, setEmailVerification] = useState<boolean>(false);
   const { register, watch, handleSubmit } = useForm<FormValues>();
+
+  useEffect(() => {
+    // Ensure no code like this is setting focus automatically
+    document.querySelector("input")?.focus();
+  }, []);
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const response = await UserApi.signUpUser({
@@ -29,6 +34,7 @@ const SignUpForm = () => {
   return (
     <form className="bg-inherit" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col items-center bg-inherit content">
+        <input className="opacity-0 size-0 " type="text" />
         {!emailVerification && (
           <>
             <input

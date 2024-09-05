@@ -25,7 +25,10 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     else if (response.rowCount == 0) {
       throw createHttpError(401, "Unauthorized");
     }
-    res.status(200).json(response.rows[0]);
+    res
+      .status(200)
+      .header({ "Access-Control-Allow-Credentials": true })
+      .json(response.rows[0]);
     // res.status(200).json({user_id.rows[0]["id"]})
   } catch (error) {
     console.log(error);
@@ -98,6 +101,7 @@ export const signUpUser: RequestHandler<
 
     res
       .status(200)
+      .header({ "Access-Control-Allow-Credentials": true })
       .json({ username: username, user_id: user_id.rows[0]["id"] });
   } catch (error) {
     console.log(error);
@@ -155,6 +159,7 @@ export const login: RequestHandler<
 
     res
       .status(201)
+      .header({ "Access-Control-Allow-Credentials": true })
       .json({ username: username, user_id: user_id.rows[0]["id"] });
   } catch (error) {
     console.error(error);

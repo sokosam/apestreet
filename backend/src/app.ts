@@ -25,6 +25,7 @@ app.use(
     origin: "http://localhost:5173", // Allow requests from this origin
     methods: ["GET", "POST", "PATCH", "OPTIONS"], // Allow these HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // Allow these headers
+    credentials: true,
   })
 );
 

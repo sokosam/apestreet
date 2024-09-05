@@ -5,9 +5,14 @@ import LoginPopUp from "./LoginPopUp";
 
 interface NavbarProps {
   onLogoClick: () => void;
+  user: {
+    id: number;
+    username: string;
+    email: string;
+  } | null;
 }
 
-const Navbar = ({ onLogoClick }: NavbarProps) => {
+const Navbar = ({ onLogoClick, user }: NavbarProps) => {
   return (
     <>
       <nav className="min-h-16 max-h-32  flex">
@@ -30,13 +35,19 @@ const Navbar = ({ onLogoClick }: NavbarProps) => {
           <div className=" hidden md:block justify-between md:w-auto align-middle"></div>
         </div>
         <div className={`grow-[1] flex items-center justify-end space-x-5 `}>
-          <div className="border-1 rounded-md ">
-            <SignUpPopUp></SignUpPopUp>
-          </div>
+          {user ? (
+            <div>{user.username}</div>
+          ) : (
+            <>
+              <div className="border-1 rounded-md ">
+                <SignUpPopUp></SignUpPopUp>
+              </div>
 
-          <div className="w-20">
-            <LoginPopUp></LoginPopUp>
-          </div>
+              <div className="w-20">
+                <LoginPopUp></LoginPopUp>
+              </div>
+            </>
+          )}
         </div>
       </nav>
     </>
