@@ -2,17 +2,23 @@ import logo from "../assets/monki.jpg";
 // import styles from "../styles/Navbar.module.css";
 import SignUpPopUp from "./SignUpPopUp";
 import LoginPopUp from "./LoginPopUp";
+import * as UserApi from "../network/users";
+import { useState } from "react";
+import User from "../models/user";
 
 interface NavbarProps {
   onLogoClick: () => void;
-  user: {
-    id: number;
-    username: string;
-    email: string;
-  } | null;
+  user: User | null;
 }
 
 const Navbar = ({ onLogoClick, user }: NavbarProps) => {
+  const [userLoggedIn, setUserLoggedIn] = useState<boolean>(user != null);
+
+  const onLogout = async () => {
+    await UserApi.logout();
+    setUserLoggedIn(false);
+  };
+
   return (
     <>
       <nav className="min-h-16 max-h-32  flex">
@@ -36,7 +42,17 @@ const Navbar = ({ onLogoClick, user }: NavbarProps) => {
         </div>
         <div className={`grow-[1] flex items-center justify-end space-x-5 `}>
           {user ? (
-            <div>{user.username}</div>
+            <>
+              <div className="w-fit pr-[20px]">
+                <button
+                  onClick={onLogout}
+                  className="self-center cursor-pointer"
+                >
+                  Logout
+                </button>
+              </div>
+              <div className="w-fit pr-[40px]">{user.username}</div>
+            </>
           ) : (
             <>
               <div className="border-1 rounded-md ">

@@ -1,10 +1,10 @@
 import { json, RequestHandler } from "express";
-import getPool from "../database";
+import getClient from "../database";
 import env from "../utils/validEnv";
 import createHttpError from "http-errors";
 
 const getDBClient = async () => {
-  const client = await getPool(env.DB_URI);
+  const client = await getClient(env.DB_URI);
   if (!client) {
     throw createHttpError(500, "Something went wrong connecting to Datebase!.");
   }
@@ -14,6 +14,7 @@ const getDBClient = async () => {
 export const getStockWatchList: RequestHandler = async (req, res, next) => {
   const user_id = req.session.user_id;
   const query = `SELECT * FROM STOCK_WATCHLIST WHERE 1=1 AND user_id = $1`;
+
   try {
     const client = await getDBClient();
 
@@ -23,6 +24,7 @@ export const getStockWatchList: RequestHandler = async (req, res, next) => {
       .status(200)
       .header({ "Access-Control-Allow-Credentials": true })
       .json(response.rows);
+    client.end();
   } catch (error) {
     next(error);
   }
@@ -63,6 +65,8 @@ export const createUserStock: RequestHandler<
       .status(200)
       .header({ "Access-Control-Allow-Credentials": true })
       .send("Successfully created user stock!");
+
+    client.end();
   } catch (error) {
     console.log(error);
 
@@ -101,6 +105,7 @@ export const deleteStock: RequestHandler<
       .status(200)
       .header({ "Access-Control-Allow-Credentials": true })
       .send("Successfully deleted user stock!");
+    client.end();
   } catch (error) {
     console.log(error);
     next(error);

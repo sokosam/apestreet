@@ -1,12 +1,12 @@
 import { RequestHandler } from "express";
-import getPool from "../database";
+import getClient from "../database";
 import env from "../utils/validEnv";
 import createHttpError from "http-errors";
 import bcrypt from "bcrypt";
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
   try {
-    const client = await getPool(env.DB_URI);
+    const client = await getClient(env.DB_URI);
     if (!client)
       throw createHttpError(
         500,
@@ -29,6 +29,8 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
       .status(200)
       .header({ "Access-Control-Allow-Credentials": true })
       .json(response.rows[0]);
+
+    client.end();
     // res.status(200).json({user_id.rows[0]["id"]})
   } catch (error) {
     console.log(error);
@@ -64,7 +66,7 @@ export const signUpUser: RequestHandler<
 
     const passwordHashed = await bcrypt.hash(passwordRaw, 10);
 
-    const client = await getPool(env.DB_URI);
+    const client = await getClient(env.DB_URI);
     if (!client) {
       throw createHttpError(
         500,
@@ -103,6 +105,8 @@ export const signUpUser: RequestHandler<
       .status(200)
       .header({ "Access-Control-Allow-Credentials": true })
       .json({ username: username, user_id: user_id.rows[0]["id"] });
+
+    client.end();
   } catch (error) {
     console.log(error);
     next(error);
@@ -130,7 +134,7 @@ export const login: RequestHandler<
       throw createHttpError(400, "Parameters missing!");
     }
 
-    const client = await getPool(env.DB_URI);
+    const client = await getClient(env.DB_URI);
     if (!client) throw createHttpError(401, "Invalid credentials!");
 
     const check = await client.query(query, [username]);
@@ -161,6 +165,8 @@ export const login: RequestHandler<
       .status(201)
       .header({ "Access-Control-Allow-Credentials": true })
       .json({ username: username, user_id: user_id.rows[0]["id"] });
+
+    client.end();
   } catch (error) {
     console.error(error);
     next(error);

@@ -7,13 +7,14 @@ import StockRow from "./Components/StockRow";
 // import Stock from "./models/stock";
 import * as UserApi from "./network/users";
 import * as StockApi from "./network/userStocks";
+import User from "./models/user";
 
 const App = () => {
-  const [user, setUser] = useState<{
-    id: number;
-    username: string;
-    email: string;
-  } | null>(null);
+  // const [user, setUser] = useState<{
+  //   id: number;
+  //   username: string;
+  //   email: string;
+  // } | null>(null);
 
   const [stocks, setStocks] = useState<
     { id: number; user_id: number; stock_symbol: string; created_at: string }[]
@@ -22,7 +23,7 @@ const App = () => {
   useEffect(() => {
     const fetchLoggedInUser = async () => {
       try {
-        const user = await UserApi.getLoggedInUser();
+        const user: User = await UserApi.getLoggedInUser();
         setUser(user);
       } catch (error) {
         console.error(error);
@@ -40,6 +41,8 @@ const App = () => {
     };
     fetchUserStocks();
   }, []);
+
+  const [user, setUser] = useState<User | null>(null);
 
   return (
     <>

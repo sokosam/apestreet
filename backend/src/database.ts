@@ -1,8 +1,12 @@
-import { Pool } from "pg";
+import { Client } from "pg";
 
-const getPool = async (connection_str: string) => {
+const getClient = async (connection_str: string) => {
   try {
-    const client = new Pool({ connectionString: connection_str });
+    const client = new Client({
+      connectionString: connection_str,
+      connectionTimeoutMillis: 1000 * 30,
+      idle_in_transaction_session_timeout: 1000 * 30,
+    });
     await client.connect();
     return client;
   } catch (error) {
@@ -10,4 +14,4 @@ const getPool = async (connection_str: string) => {
   }
 };
 
-export default getPool;
+export default getClient;
