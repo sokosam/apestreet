@@ -1,3 +1,4 @@
+import User from "../models/user";
 const fetchData = async (input: RequestInfo, init?: RequestInit) => {
   const response = await fetch(input, init);
   if (response.ok) {
@@ -15,11 +16,7 @@ const fetchData = async (input: RequestInfo, init?: RequestInit) => {
   }
 };
 
-export async function getLoggedInUser(): Promise<{
-  id: number;
-  username: string;
-  email: string;
-}> {
+export async function getLoggedInUser(): Promise<User> {
   const response = await fetchData("http://localhost:5000/api/users", {
     credentials: "include",
     method: "GET",
@@ -37,10 +34,7 @@ export async function signUpUser({
   username,
   email,
   password,
-}: UserProps): Promise<{
-  username?: string;
-  user_id?: string;
-}> {
+}: UserProps): Promise<User> {
   const response = await fetchData("http://localhost:5000/api/users/signUp", {
     method: "POST",
     credentials: "include",
@@ -60,10 +54,7 @@ export const loginUser = async ({
   username,
   email,
   password,
-}: UserProps): Promise<{
-  username?: string;
-  user_id?: string;
-}> => {
+}: UserProps): Promise<User> => {
   const response = await fetchData("http://localhost:5000/api/users/login", {
     method: "POST",
     credentials: "include",

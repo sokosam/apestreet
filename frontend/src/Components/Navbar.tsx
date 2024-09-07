@@ -2,22 +2,22 @@ import logo from "../assets/monki.jpg";
 // import styles from "../styles/Navbar.module.css";
 import SignUpPopUp from "./SignUpPopUp";
 import LoginPopUp from "./LoginPopUp";
-import * as UserApi from "../network/users";
-import { useState } from "react";
 import User from "../models/user";
 
 interface NavbarProps {
   onLogoClick: () => void;
   user: User | null;
+  onLogout: () => Promise<void>;
+  onLogin: (data: {
+    email: string;
+    password: string;
+    username: string;
+  }) => Promise<void>;
 }
 
-const Navbar = ({ onLogoClick, user }: NavbarProps) => {
-  const [userLoggedIn, setUserLoggedIn] = useState<boolean>(user != null);
-
-  const onLogout = async () => {
-    await UserApi.logout();
-    setUserLoggedIn(false);
-  };
+const Navbar = ({ onLogoClick, onLogout, onLogin, user }: NavbarProps) => {
+  // console.log(user);
+  // console.log(userLoggedIn);
 
   return (
     <>
@@ -60,7 +60,7 @@ const Navbar = ({ onLogoClick, user }: NavbarProps) => {
               </div>
 
               <div className="w-20">
-                <LoginPopUp></LoginPopUp>
+                <LoginPopUp onLogin={onLogin}></LoginPopUp>
               </div>
             </>
           )}

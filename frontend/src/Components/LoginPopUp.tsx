@@ -1,8 +1,16 @@
-import StyledPopup from "./util/StyledPopup";
-import LoginForm from "./LoginForm";
 import { useState } from "react";
+import LoginForm from "./LoginForm";
+import StyledPopup from "./util/StyledPopup";
 
-const LoginPopUp = () => {
+interface LoginFormProps {
+  onLogin: (data: {
+    username: string;
+    email: string;
+    password: string;
+  }) => Promise<void>;
+}
+
+const LoginPopUp = ({ onLogin }: LoginFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -23,7 +31,7 @@ const LoginPopUp = () => {
               <div>Login</div>
             </div>
             <div>
-              <LoginForm></LoginForm>
+              <LoginForm onLogin={onLogin}></LoginForm>
             </div>
           </div>
         </StyledPopup>

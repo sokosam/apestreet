@@ -89,7 +89,7 @@ export const signUpUser: RequestHandler<
     const result = await client.query(query, [username, email, passwordHashed]);
 
     const user_id = await client.query(
-      "SELECT id FROM USERBASE WHERE 1=1 AND (username = $1)",
+      "SELECT id,email FROM USERBASE WHERE 1=1 AND (username = $1)",
       [username]
     );
     if (!user_id)
@@ -100,11 +100,12 @@ export const signUpUser: RequestHandler<
 
     req.session.user_id = user_id.rows[0]["id"];
     req.session.username = username;
+    req.session.email = user_id.rows[0]["email"];
 
     res
       .status(200)
       .header({ "Access-Control-Allow-Credentials": true })
-      .json({ username: username, user_id: user_id.rows[0]["id"] });
+      .json({ username: username, id: user_id.rows[0]["id"], email: email });
 
     client.end();
   } catch (error) {
@@ -149,7 +150,7 @@ export const login: RequestHandler<
     }
 
     const user_id = await client.query(
-      "SELECT id FROM USERBASE WHERE 1=1 AND (username = $1)",
+      "SELECT id,email FROM USERBASE WHERE 1=1 AND (username = $1)",
       [username]
     );
     if (!user_id)
@@ -160,11 +161,13 @@ export const login: RequestHandler<
 
     req.session.user_id = user_id.rows[0]["id"];
     req.session.username = username;
+    req.session.email = user_id.rows[0]["email"];
 
-    res
-      .status(201)
-      .header({ "Access-Control-Allow-Credentials": true })
-      .json({ username: username, user_id: user_id.rows[0]["id"] });
+    res.status(201).header({ "Access-Control-Allow-Credentials": true }).json({
+      username: username,
+      user_id: user_id.rows[0]["id"],
+      email: user_id.rows[0]["email"],
+    });
 
     client.end();
   } catch (error) {

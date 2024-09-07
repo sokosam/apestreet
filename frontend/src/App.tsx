@@ -16,6 +16,8 @@ const App = () => {
   //   email: string;
   // } | null>(null);
 
+  const [user, setUser] = useState<User | null>(null);
+
   const [stocks, setStocks] = useState<
     { id: number; user_id: number; stock_symbol: string; created_at: string }[]
   >([]);
@@ -30,7 +32,9 @@ const App = () => {
       }
     };
     fetchLoggedInUser();
+  }, []);
 
+  useEffect(() => {
     const fetchUserStocks = async () => {
       try {
         const stocks = await StockApi.getUserStocks();
@@ -42,11 +46,32 @@ const App = () => {
     fetchUserStocks();
   }, []);
 
-  const [user, setUser] = useState<User | null>(null);
+  const onLogout = async () => {
+    await UserApi.logout();
+    setUser(null);
+  };
+
+  const onLogin = async (data: {
+    email: string;
+    password: string;
+    username: string;
+  }) => {
+    try {
+      const user = await UserApi.loginUser(data);
+      setUser(user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
-      <Navbar onLogoClick={() => {}} user={user}></Navbar>
+      <Navbar
+        onLogout={onLogout}
+        onLogoClick={() => {}}
+        onLogin={onLogin}
+        user={user}
+      ></Navbar>
       <div className="w-[100%] xl:w-[60%] m-auto">
         <StockList>
           {stocks &&
