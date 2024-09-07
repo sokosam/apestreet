@@ -2,7 +2,15 @@
 import StyledPopup from "./util/StyledPopup";
 import SignUpForm from "./SignUpForm";
 
-const SignUpPopUp = () => {
+interface SignUpPopUpProps {
+  onSignUp: (data: {
+    username: string;
+    email: string;
+    password: string;
+  }) => Promise<void>;
+}
+
+const SignUpPopUp = ({ onSignUp }: SignUpPopUpProps) => {
   return (
     <StyledPopup
       className=""
@@ -14,7 +22,7 @@ const SignUpPopUp = () => {
           <div>Create Account</div>
         </div>
         <div>
-          <SignUpForm></SignUpForm>
+          <SignUpForm onSignUp={onSignUp}></SignUpForm>
         </div>
       </div>
     </StyledPopup>

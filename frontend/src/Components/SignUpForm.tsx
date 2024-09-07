@@ -1,7 +1,6 @@
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "../styles/Form.module.css";
-import { useEffect, useState } from "react";
-import * as UserApi from "../network/users";
 
 interface FormValues {
   username: string;
@@ -10,24 +9,29 @@ interface FormValues {
   password_confirm: string;
 }
 
-const SignUpForm = () => {
+interface SignUpFormProps {
+  onSignUp: (data: {
+    username: string;
+    email: string;
+    password: string;
+  }) => Promise<void>;
+}
+
+const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
   const [emailVerification, setEmailVerification] = useState<boolean>(false);
   const { register, watch, handleSubmit } = useForm<FormValues>();
 
-  useEffect(() => {
-    // Ensure no code like this is setting focus automatically
-    document.querySelector("input")?.focus();
-  }, []);
-
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    const response = await UserApi.signUpUser({
-      username: data.username,
-      email: data.email,
-      password: data.password,
-    });
-    console.log(response);
-    if (response) {
+    try {
+      const response = await onSignUp({
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      });
+      console.log(response);
       setEmailVerification(true);
+    } catch (error) {
+      console.log(error);
     }
   };
 

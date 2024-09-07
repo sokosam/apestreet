@@ -13,9 +13,20 @@ interface NavbarProps {
     password: string;
     username: string;
   }) => Promise<void>;
+  onSignUp: (data: {
+    username: string;
+    email: string;
+    password: string;
+  }) => Promise<void>;
 }
 
-const Navbar = ({ onLogoClick, onLogout, onLogin, user }: NavbarProps) => {
+const Navbar = ({
+  onLogoClick,
+  onLogout,
+  onLogin,
+  onSignUp,
+  user,
+}: NavbarProps) => {
   // console.log(user);
   // console.log(userLoggedIn);
 
@@ -56,7 +67,7 @@ const Navbar = ({ onLogoClick, onLogout, onLogin, user }: NavbarProps) => {
           ) : (
             <>
               <div className="border-1 rounded-md ">
-                <SignUpPopUp></SignUpPopUp>
+                <SignUpPopUp onSignUp={onSignUp}></SignUpPopUp>
               </div>
 
               <div className="w-20">
