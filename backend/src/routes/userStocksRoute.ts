@@ -3,14 +3,18 @@ import {
   createUserStock,
   deleteStock,
   getStockWatchList,
+  getPublicStockWatchlist,
 } from "../controllers/stockController";
+import isAuthenticated from "../auth/auth";
 
 const router = express.Router();
 
-router.post("/create", createUserStock);
+router.post("/create", isAuthenticated, createUserStock);
 
-router.post("/delete", deleteStock);
+router.post("/delete", isAuthenticated, deleteStock);
 
-router.get("/", getStockWatchList);
+router.get("/", isAuthenticated, getStockWatchList);
+
+router.get("/:username", getPublicStockWatchlist);
 
 export default router;

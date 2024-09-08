@@ -50,7 +50,7 @@ const client = getPool(env.DB_URI);
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
-app.use("/api/userStocks", isAuthenticated, userStockRoutes);
+app.use("/api/userStocks", userStockRoutes);
 
 app.listen(env.PORT, () => {
   console.log("Server is running on port " + env.PORT);

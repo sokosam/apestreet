@@ -116,4 +116,39 @@ export const deleteStock: RequestHandler<
   }
 };
 
-// export const;
+export const getPublicStockWatchlist: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
+  const username = req.params.username;
+
+  const user_id_query = "SELECT id FROM USERBASE WHERE 1=1 AND (username = $1)";
+  const query = `SELECT * FROM STOCK_WATCHLIST WHERE 1=1 AND user_id = $1`;
+
+  try {
+    const client = await getDBClient();
+
+    const response = await client.query(user_id_query, [username]);
+    if (!response) {
+      await client.end();
+      throw createHttpError(
+        500,
+        "Something went wrong connecting to Datebase!"
+      );
+    } else if (response.rowCount == 0) {
+      await client.end();
+      throw createHttpError(404, "User does not exist!");
+    }
+
+    const watchlist = await client.query(query, [response.rows[0]["id"]]);
+
+    res
+      .status(200)
+      .header({ "Access-Control-Allow-Credentials": true })
+      .json(watchlist.rows);
+    await client.end();
+  } catch (error) {
+    next(error);
+  }
+};
