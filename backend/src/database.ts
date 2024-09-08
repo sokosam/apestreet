@@ -6,6 +6,7 @@ const getClient = async (connection_str: string) => {
       connectionString: connection_str,
       connectionTimeoutMillis: 1000 * 30,
       idle_in_transaction_session_timeout: 1000 * 30,
+      query_timeout: 1000 * 30,
     });
     await client.connect();
     return client;

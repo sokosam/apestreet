@@ -3,9 +3,9 @@ import logo from "../assets/monki.jpg";
 import SignUpPopUp from "./SignUpPopUp";
 import LoginPopUp from "./LoginPopUp";
 import User from "../models/user";
+import { redirect } from "react-router-dom";
 
 interface NavbarProps {
-  onLogoClick: () => void;
   user: User | null;
   onLogout: () => Promise<void>;
   onLogin: (data: {
@@ -20,13 +20,7 @@ interface NavbarProps {
   }) => Promise<void>;
 }
 
-const Navbar = ({
-  onLogoClick,
-  onLogout,
-  onLogin,
-  onSignUp,
-  user,
-}: NavbarProps) => {
+const Navbar = ({ onLogout, onLogin, onSignUp, user }: NavbarProps) => {
   // console.log(user);
   // console.log(userLoggedIn);
 
@@ -39,7 +33,7 @@ const Navbar = ({
           <a className="h-full  flex space-x-3 rtl:space-x-reverse" href="/">
             <img
               className={` h-full`}
-              onClick={onLogoClick}
+              onClick={() => redirect("/")}
               src={logo}
               alt=""
             />

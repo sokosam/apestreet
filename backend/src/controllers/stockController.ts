@@ -24,7 +24,7 @@ export const getStockWatchList: RequestHandler = async (req, res, next) => {
       .status(200)
       .header({ "Access-Control-Allow-Credentials": true })
       .json(response.rows);
-    client.end();
+    await client.end();
   } catch (error) {
     next(error);
   }
@@ -50,12 +50,14 @@ export const createUserStock: RequestHandler<
     const check = await client.query(checkExist, [stock_symbol, user_id]);
 
     if (!check) {
+      await client.end();
       throw createHttpError(
         500,
         "Something went wrong connecting to Datebase!."
       );
     }
     if (check.rows[0]["count"] != "0") {
+      await client.end();
       throw createHttpError(409, "Already exists.");
     }
 
@@ -66,7 +68,7 @@ export const createUserStock: RequestHandler<
       .header({ "Access-Control-Allow-Credentials": true })
       .send("Successfully created user stock!");
 
-    client.end();
+    await client.end();
   } catch (error) {
     console.log(error);
 
@@ -90,12 +92,14 @@ export const deleteStock: RequestHandler<
     const check = await client.query(checkExist, [stock_symbol, user_id]);
 
     if (!check) {
+      await client.end();
       throw createHttpError(
         500,
         "Something went wrong connecting to Datebase!."
       );
     }
     if (check.rows[0]["count"] == "0") {
+      await client.end();
       throw createHttpError(409, "Stock is not currently in the watchlist!");
     }
 
@@ -105,7 +109,7 @@ export const deleteStock: RequestHandler<
       .status(200)
       .header({ "Access-Control-Allow-Credentials": true })
       .send("Successfully deleted user stock!");
-    client.end();
+    await client.end();
   } catch (error) {
     console.log(error);
     next(error);

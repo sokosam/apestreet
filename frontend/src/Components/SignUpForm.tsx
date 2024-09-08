@@ -21,8 +21,11 @@ const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
   const [emailVerification, setEmailVerification] = useState<boolean>(false);
   const { register, watch, handleSubmit } = useForm<FormValues>();
 
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
+      setButtonDisabled(true);
       const response = await onSignUp({
         username: data.username,
         email: data.email,
@@ -30,8 +33,10 @@ const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
       });
       console.log(response);
       setEmailVerification(true);
+      setButtonDisabled(false);
     } catch (error) {
       console.log(error);
+      setButtonDisabled(false);
     }
   };
 
@@ -75,7 +80,11 @@ const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
               </div> */}
             </div>
 
-            <button className={`${styles.submitButton} my-1 `} type="submit">
+            <button
+              disabled={buttonDisabled}
+              className={`${styles.submitButton} my-1 `}
+              type="submit"
+            >
               Submit
             </button>
           </>

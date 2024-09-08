@@ -1,5 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "../styles/Form.module.css";
+import { useState } from "react";
 
 interface FormValues {
   username: string;
@@ -18,17 +19,21 @@ interface LoginFormProps {
 
 const LoginForm = ({ onLogin }: LoginFormProps) => {
   const { register, handleSubmit } = useForm<FormValues>();
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const onSubmitLogin: SubmitHandler<FormValues> = async (data) => {
     try {
+      setButtonDisabled(true);
       const response = await onLogin({
         username: data.username,
         email: data.email,
         password: data.password,
       });
       console.log(response);
+      setButtonDisabled(false);
     } catch (error) {
       console.log(error);
+      setButtonDisabled(false);
     }
   };
 
@@ -56,7 +61,11 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
           <div className="self-end text-xs text-blue-400">Forget Password?</div>
         </div>
 
-        <button className={`${styles.submitButton}`} type="submit">
+        <button
+          className={`${styles.submitButton}`}
+          disabled={buttonDisabled}
+          type="submit"
+        >
           Submit
         </button>
       </div>

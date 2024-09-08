@@ -38,6 +38,9 @@ const StockList = ({ title, children }: StockListProps) => {
             {children &&
               React.Children.map(children, (child) => (
                 <tr
+                  key={(+new Date() * Math.random())
+                    .toString(36)
+                    .substring(0, 6)}
                   className={`hover:backdrop-brightness-95 border-opacity-5 ${style.tableChildren}`}
                 >
                   {child}
