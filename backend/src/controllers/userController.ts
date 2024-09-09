@@ -184,13 +184,13 @@ export const logout: RequestHandler = (req, res, next) => {
       next(error);
     } else {
       res.clearCookie("connect.sid");
-      res.sendStatus(200);
+      res.status(200);
     }
   });
 };
 
-export const getPublicUser: RequestHandler = async (req, res, next) => {
-  const username = req.body.username;
+export const checkUserExists: RequestHandler = async (req, res, next) => {
+  const username = req.params.username;
   const queryCheckExist =
     "SELECT COUNT(*) FROM USERBASE WHERE 1=1 AND (username = $1)";
 
@@ -207,8 +207,12 @@ export const getPublicUser: RequestHandler = async (req, res, next) => {
     }
 
     if (check.rows[0]["count"] == "0") {
-      throw createHttpError(409, "User doesn't exist!");
+      res.status(200).json({ exists: false });
+    } else {
+      res.status(200).json({ exists: true });
     }
+
+    await client.end();
   } catch (error) {
     console.error(error);
     next(error);

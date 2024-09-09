@@ -24,6 +24,16 @@ export async function getLoggedInUser(): Promise<User> {
   return response.json();
 }
 
+export async function getPublicUser(
+  username: string
+): Promise<{ exists: boolean }> {
+  const response = await fetchData(
+    `http://localhost:5000/api/users/${username}`,
+    { method: "GET" }
+  );
+  return response.json();
+}
+
 interface UserProps {
   username: string;
   email: string;

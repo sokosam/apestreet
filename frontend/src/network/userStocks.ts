@@ -22,3 +22,13 @@ export const getUserStocks = async () => {
   });
   return response.json();
 };
+
+export const getUserStocksPublic = async (username: string) => {
+  const response = await fetchData(
+    `http://localhost:5000/api/userStocks/${username}`,
+    {
+      method: "GET",
+    }
+  );
+  return response.json();
+};
