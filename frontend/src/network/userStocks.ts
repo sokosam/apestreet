@@ -1,3 +1,5 @@
+const env = import.meta.env;
+
 const fetchData = async (input: RequestInfo, init?: RequestInit) => {
   const response = await fetch(input, init);
   if (response.ok) {
@@ -16,16 +18,19 @@ const fetchData = async (input: RequestInfo, init?: RequestInit) => {
 };
 
 export const getUserStocks = async () => {
-  const response = await fetchData("http://localhost:5000/api/userStocks", {
-    method: "GET",
-    credentials: "include",
-  });
+  const response = await fetchData(
+    `${env["VITE_BACKEND_API"]}/api/userStocks`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
   return response.json();
 };
 
 export const getUserStocksPublic = async (username: string) => {
   const response = await fetchData(
-    `http://localhost:5000/api/userStocks/${username}`,
+    `${env["VITE_BACKEND_API"]}/api/userStocks/${username}`,
     {
       method: "GET",
     }

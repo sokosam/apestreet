@@ -1,4 +1,7 @@
 import User from "../models/user";
+
+const env = import.meta.env;
+
 const fetchData = async (input: RequestInfo, init?: RequestInit) => {
   const response = await fetch(input, init);
   if (response.ok) {
@@ -17,7 +20,7 @@ const fetchData = async (input: RequestInfo, init?: RequestInit) => {
 };
 
 export async function getLoggedInUser(): Promise<User> {
-  const response = await fetchData("http://localhost:5000/api/users", {
+  const response = await fetchData(`${env.VITE_BACKEND_API}/api/users`, {
     credentials: "include",
     method: "GET",
   });
@@ -28,7 +31,7 @@ export async function getPublicUser(
   username: string
 ): Promise<{ exists: boolean }> {
   const response = await fetchData(
-    `http://localhost:5000/api/users/${username}`,
+    `${env.VITE_BACKEND_API}/api/users/${username}`,
     { method: "GET" }
   );
   return response.json();
@@ -45,7 +48,7 @@ export async function signUpUser({
   email,
   password,
 }: UserProps): Promise<User> {
-  const response = await fetchData("http://localhost:5000/api/users/signUp", {
+  const response = await fetchData(`${env.VITE_BACKEND_API}/api/users/signUp`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -65,7 +68,9 @@ export const loginUser = async ({
   email,
   password,
 }: UserProps): Promise<User> => {
-  const response = await fetchData("http://localhost:5000/api/users/login", {
+  console.log(env.VITE_BACKEND_API);
+
+  const response = await fetchData(`${env.VITE_BACKEND_API}/api/users/login`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -81,7 +86,7 @@ export const loginUser = async ({
 };
 
 export const logout = async () => {
-  await fetchData("http://localhost:5000/api/users/logout", {
+  await fetchData(`${env.VITE_BACKEND_API}/api/users/logout`, {
     credentials: "include",
     method: "POST",
   });
