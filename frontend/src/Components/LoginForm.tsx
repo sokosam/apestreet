@@ -24,12 +24,11 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
   const onSubmitLogin: SubmitHandler<FormValues> = async (data) => {
     try {
       setButtonDisabled(true);
-      const response = await onLogin({
+      await onLogin({
         username: data.username,
         email: data.email,
         password: data.password,
       });
-      console.log(response);
       setButtonDisabled(false);
     } catch (error) {
       console.log(error);

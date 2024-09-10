@@ -3,7 +3,8 @@
   min-width: 600px;
   border-color: inherit;
   border-radius: inherit;
-  table-layout: fixed;
+  table-layout: auto;
+  font-size: inherit;
 }
 
 .tableHead {
@@ -11,6 +12,8 @@
   vertical-align: middle;
   unicode-bidi: isolate;
   border-color: inherit;
+  font-size: inherit;
+  white-space: nowrap;
 }
 
 .tableRow {
@@ -20,6 +23,7 @@
   border-color: inherit;
   font-family: "Proxima Nova", -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: inherit;
 }
 
 .tableChildren {
@@ -36,5 +40,10 @@
   text-align: -internal-center;
   unicode-bidi: isolate;
   padding: 0 20px;
-  text-wrap: wrap;
+  white-space: nowrap;
+  font-size: inherit;
+}
+
+#wrapper {
+  font-size: inherit;
 }

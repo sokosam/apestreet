@@ -30,7 +30,7 @@ const StockRow = ({
       <td
         className={`border-b-2 hover:underline hover:cursor-pointer self-center ${style.tableRow}`}
       >
-        <a className="min-w-20 min-h-20 flex  flex-row" href="/">
+        <a className="min-w-fit w-fit flex  flex-row" href="/">
           <div className="w-20 h-20 mx-1 flex">
             <img
               className={`  min-w-[50px] min-h-[50px] size-2/3 self-center rounded-2xl object-cover`}
@@ -39,9 +39,9 @@ const StockRow = ({
               onError={handleError}
             />
           </div>
-          <div className=" px-5 min-w-10 xl:min-w-[75%] w-3/4    self-center ">
+          <div className="  py-5    self-center ">
             <div
-              className={`align-[inherit] max-w-[50px] xl:min-w-[100%] xl:max-w-[200px] sm:max-w-[150px] overflow-hidden overflow-ellipsis whitespace-nowrap w-full`}
+              className={`align-[inherit] max-w-[200px] overflow-hidden overflow-ellipsis whitespace-nowrap`}
             >
               {name}
             </div>
@@ -74,6 +74,8 @@ const StockRow = ({
     </>
   );
 };
+
+export default StockRow;
 
 // const StockRow = ({
 //   name,
@@ -131,8 +133,6 @@ const StockRow = ({
 //     </>
 //   );
 // };
-
-export default StockRow;
 
 {
   /* <div className="flex space-x-10 ">

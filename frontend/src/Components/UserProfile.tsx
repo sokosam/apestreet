@@ -93,7 +93,7 @@ const UserProfile = () => {
         onSignUp={onSignUp}
         user={user}
       ></Navbar>
-      <div className="m-auto  w-[70%] h-fit">
+      <div className="m-auto  w-[40%] h-fit">
         <div className="w-[100%] xl:w-[60%] m-auto">
           <StockList>
             {profileStockList &&

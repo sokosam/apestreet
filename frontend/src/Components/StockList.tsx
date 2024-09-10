@@ -11,25 +11,28 @@ const StockList = ({ title, children }: StockListProps) => {
   return (
     <>
       {title ? <h1 className="self-center">{title}</h1> : null}
-      <div className="m-auto border-2 border-opacity-5 w-fit md:w-full lg:w-[95%]  shadow-2xl  rounded-[25px] ">
+      <div
+        id={style.wrapper}
+        className="m-auto border-2 border-opacity-5 min-w-fit md:w-full lg:w-[95%]  shadow-2xl   rounded-[25px] "
+      >
         <table
           className={` px-5 w-full   overflow-hidden  border-separate  ${style.bg}`}
         >
           <thead className={`h-16  ${style.tableHead}`}>
             <tr className={`${style.tableRow}`}>
-              <th className={` w-[40%] ${style.tableItem}`} scope="col">
+              <th className={` px-6 ${style.tableItem}`} scope="col">
                 Company
               </th>
-              <th className={` w-[15%]  ${style.tableItem}`} scope="col">
+              <th className={`   px-6  ${style.tableItem}`} scope="col">
                 Ticker
               </th>
-              <th className={` w-[15%] ${style.tableItem}`} scope="col">
+              <th className={`px-6 ${style.tableItem}`} scope="col">
                 Mentions
               </th>
-              <th className={` w-[15%]${style.tableItem}`} scope="col">
+              <th className={`  px-6  ${style.tableItem}`} scope="col">
                 Comments
               </th>
-              <th className={` w-[15%] ${style.tableItem}`} scope="col">
+              <th className={`  px-6 ${style.tableItem}`} scope="col">
                 Upvotes
               </th>
             </tr>
