@@ -1,9 +1,8 @@
 .bg {
   background: white;
-  min-width: 600px;
+  /* min-width: 600px; */
   border-color: inherit;
   border-radius: inherit;
-  table-layout: auto;
   font-size: inherit;
 }
 
@@ -39,9 +38,9 @@
   font-weight: bold;
   text-align: -internal-center;
   unicode-bidi: isolate;
-  padding: 0 20px;
   white-space: nowrap;
   font-size: inherit;
+  padding: 0 5px;
 }
 
 #wrapper {

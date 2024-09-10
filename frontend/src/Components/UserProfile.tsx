@@ -6,9 +6,38 @@ import * as StockApi from "../network/userStocks";
 import { useParams } from "react-router-dom";
 import StockList from "./StockList";
 import StockRow from "./StockRow";
+import styles from "../styles/UserProfile.module.css";
 
 const UserProfile = () => {
   const [user, setUser] = useState<User | null>(null);
+  const { id } = useParams<{ id: string }>();
+  const [profileStockList, setProfileStockList] = useState<
+    { id: number; user_id: number; stock_symbol: string; created_at: string }[]
+  >([]);
+
+  useEffect(() => {
+    const profile = async () => {
+      const searched_username = id;
+
+      const profile_user = await UserApi.getPublicUser(
+        searched_username
+          ? searched_username
+          : user
+          ? user.username
+          : "samuelshi"
+      );
+
+      if (profile_user.exists) {
+        const profile_user_watchlist = await StockApi.getUserStocksPublic(
+          searched_username!
+        );
+        setProfileStockList(profile_user_watchlist);
+      } else {
+        console.log("Does Not Exist!");
+      }
+    };
+    profile();
+  }, [id, user]);
 
   useEffect(() => {
     const fetchLoggedInUser = async () => {
@@ -36,7 +65,7 @@ const UserProfile = () => {
       const user = await UserApi.loginUser(data);
       setUser(user);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -49,41 +78,9 @@ const UserProfile = () => {
       const user = await UserApi.signUpUser(data);
       setUser(user);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
-  const { id } = useParams<{ id: string }>();
-  const [profileStockList, setProfileStockList] = useState<
-    { id: number; user_id: number; stock_symbol: string; created_at: string }[]
-  >([]);
-
-  useEffect(() => {
-    const profile = async () => {
-      const searched_username = id;
-      console.log(searched_username);
-
-      const profile_user = await UserApi.getPublicUser(
-        searched_username
-          ? searched_username
-          : user
-          ? user.username
-          : "samuelshi"
-      );
-
-      console.log(profile_user);
-
-      if (profile_user.exists) {
-        const profile_user_watchlist = await StockApi.getUserStocksPublic(
-          searched_username!
-        );
-        setProfileStockList(profile_user_watchlist);
-        console.log("hello" + profile_user_watchlist);
-      } else {
-        console.log("nope");
-      }
-    };
-    profile();
-  }, [id, user]);
 
   return (
     <>
@@ -93,8 +90,13 @@ const UserProfile = () => {
         onSignUp={onSignUp}
         user={user}
       ></Navbar>
-      <div className="m-auto  w-[40%] h-fit">
-        <div className="w-[100%] xl:w-[60%] m-auto">
+      <div
+        className={`m-auto  w-[80%] h-fit flex  overflow-scroll  ${styles.wrapper}   `}
+      >
+        <div className="w-[30%]">
+          <div className="w-full "></div>
+        </div>
+        <div className="w-[70%] xl:w-[50%] m-auto">
           <StockList>
             {profileStockList &&
               profileStockList.map((stock) => (

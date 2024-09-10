@@ -1,0 +1,8 @@
+#wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+#wrapper {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

@@ -53,7 +53,7 @@ const HomePage = () => {
       const user = await UserApi.loginUser(data);
       setUser(user);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -66,7 +66,7 @@ const HomePage = () => {
       const user = await UserApi.signUpUser(data);
       setUser(user);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

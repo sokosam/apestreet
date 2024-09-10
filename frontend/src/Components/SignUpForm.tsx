@@ -26,16 +26,15 @@ const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
       setButtonDisabled(true);
-      const response = await onSignUp({
+      await onSignUp({
         username: data.username,
         email: data.email,
         password: data.password,
       });
-      console.log(response);
       setEmailVerification(true);
       setButtonDisabled(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setButtonDisabled(false);
     }
   };

@@ -20,19 +20,19 @@ const StockList = ({ title, children }: StockListProps) => {
         >
           <thead className={`h-16  ${style.tableHead}`}>
             <tr className={`${style.tableRow}`}>
-              <th className={` px-6 ${style.tableItem}`} scope="col">
+              <th className={` ${style.tableItem}`} scope="col">
                 Company
               </th>
-              <th className={`   px-6  ${style.tableItem}`} scope="col">
+              <th className={`  ${style.tableItem}`} scope="col">
                 Ticker
               </th>
-              <th className={`px-6 ${style.tableItem}`} scope="col">
+              <th className={` ${style.tableItem}`} scope="col">
                 Mentions
               </th>
-              <th className={`  px-6  ${style.tableItem}`} scope="col">
+              <th className={`   ${style.tableItem}`} scope="col">
                 Comments
               </th>
-              <th className={`  px-6 ${style.tableItem}`} scope="col">
+              <th className={`   ${style.tableItem}`} scope="col">
                 Upvotes
               </th>
             </tr>

@@ -41,7 +41,7 @@ const StockRow = ({
           </div>
           <div className="  py-5    self-center ">
             <div
-              className={`align-[inherit] max-w-[200px] overflow-hidden overflow-ellipsis whitespace-nowrap`}
+              className={`align-[inherit] max-w-[200px] mr-2 overflow-hidden overflow-ellipsis whitespace-nowrap`}
             >
               {name}
             </div>
@@ -51,24 +51,18 @@ const StockRow = ({
       {/* <td className="w-1/4 pr-6 overflow-x-hidden self-center text-left">
         {name}
       </td> */}
-      <td className={` border-b-2 px-6 text-center  ${style.tableRow}`}>
-        <div className={`w-fit px-3 ${fire ? style.onFire : ""} `}>
-          {ticker}
-        </div>
+      <td className={` border-b-2  text-center  ${style.tableRow}`}>
+        <div className={` ${fire ? style.onFire : ""} `}>{ticker}</div>
       </td>
       <td
-        className={` border-b-2 text-center overflow-x-hidden truncate px-6 self-center ${style.tableRow}`}
+        className={` border-b-2 text-center overflow-x-hidden truncate self-center ${style.tableRow}`}
       >
         {mentions}
       </td>
-      <td
-        className={` text-center px-6 truncate self-center ${style.tableRow}`}
-      >
+      <td className={` text-center truncate self-center ${style.tableRow}`}>
         {comments}
       </td>
-      <td
-        className={`  text-center px-6 truncate self-center ${style.tableRow}`}
-      >
+      <td className={`  text-center truncate self-center ${style.tableRow}`}>
         {upvotes}
       </td>
     </>

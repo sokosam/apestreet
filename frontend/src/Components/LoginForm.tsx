@@ -31,7 +31,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
       });
       setButtonDisabled(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setButtonDisabled(false);
     }
   };
