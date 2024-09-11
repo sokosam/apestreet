@@ -92,14 +92,16 @@ const UserProfile = () => {
         user={user}
       ></Navbar>
       <div
-        className={`m-auto  w-[80%] h-fit flex  overflow-scroll  ${styles.wrapper}   `}
+        className={`m-auto  w-[80%] h-fit flex   overflow-scroll  ${styles.wrapper}   `}
       >
-        <div className={`w-[30%] ${styles.bg}`}>
-          <div className="w-full h-[40%]">
+        <div
+          className={`w-[25%] ${styles.bg} shadow-2xl border-2 border-opacity-5 rounded-[25px] m-auto`}
+        >
+          <div className="self-center w-full h-[40%]">
             <img className="size-10" src={img} alt="" />
           </div>
         </div>
-        <div className="w-[70%] xl:w-[50%] m-auto ">
+        <div className="w-[70%] xl:w-[50%] m-auto flex items-center ">
           <StockList>
             {profileStockList &&
               profileStockList.map((stock) => (
