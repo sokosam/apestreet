@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import StockList from "./StockList";
 import StockRow from "./StockRow";
 import styles from "../styles/UserProfile.module.css";
+import img from "../assets/monki.jpg";
 
 const UserProfile = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -93,10 +94,12 @@ const UserProfile = () => {
       <div
         className={`m-auto  w-[80%] h-fit flex  overflow-scroll  ${styles.wrapper}   `}
       >
-        <div className="w-[30%]">
-          <div className="w-full "></div>
+        <div className={`w-[30%] ${styles.bg}`}>
+          <div className="w-full h-[40%]">
+            <img className="size-10" src={img} alt="" />
+          </div>
         </div>
-        <div className="w-[70%] xl:w-[50%] m-auto">
+        <div className="w-[70%] xl:w-[50%] m-auto ">
           <StockList>
             {profileStockList &&
               profileStockList.map((stock) => (

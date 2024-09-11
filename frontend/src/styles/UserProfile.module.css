@@ -1,8 +1,16 @@
-#wrapper::-webkit-scrollbar {
+.wrapper::-webkit-scrollbar {
   display: none;
 }
 
-#wrapper {
+.wrapper {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+.bg {
+  background: white;
+  /* min-width: 600px; */
+  border-color: inherit;
+  border-radius: inherit;
+  font-size: inherit;
 }
