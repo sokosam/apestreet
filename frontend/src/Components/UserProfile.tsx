@@ -109,7 +109,6 @@ const UserProfile = () => {
                   key={(+new Date() * Math.random())
                     .toString(36)
                     .substring(0, 6)}
-                  name={stock.stock_symbol}
                   mentions={1}
                   ticker={stock.stock_symbol}
                   comments={1}

@@ -1,31 +1,41 @@
-from yahooquery import Ticker
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import json
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(async_mode='asgi')
 
-class Stock(BaseModel):
-    stock : str
+origins = [
+    "http://localhost:5173",
+    "http://localhost:5000/"
+]
 
-# @app.post("/stock")
-# async def root():
-#     stock = {ticker :"aapl"}
-#     stock_info = await Ticker(stock.stock)
-#     if len(stock_info) <=1:
-#         print(stock_info.all_modules)
-#     return stock_info[stock.ticker]["shortName"].json()   
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+stock_list ={}
+with open(r"company_tickers.json", "r") as file:
+    data = json.load(file)
+    for i in data:
+        stock_list[data[i]["ticker"]] = data[i]["title"]
+
+class Stock(BaseModel):
+    ticker : str 
 
 @app.post("/stock")
 async def getStock(stock: Stock):
-    stock_info = Ticker(stock.stock)
-    try:
-        if stock_info.price[stock.stock]["shortName"]:
-            return stock_info.price[stock.stock]["shortName"]
-    except:
-        raise HTTPException(status_code=404, detail="Item not found")
+    if stock.ticker.upper() in stock_list:
+        return stock_list[stock.ticker.upper()]
+    else:
+        raise HTTPException(404, "Stock not found")
 
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app , )
+    uvicorn.run(app)

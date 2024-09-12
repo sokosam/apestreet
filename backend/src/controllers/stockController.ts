@@ -3,6 +3,23 @@ import getClient from "../database";
 import env from "../utils/validEnv";
 import createHttpError from "http-errors";
 
+const fetchData = async (input: RequestInfo, init?: RequestInit) => {
+  const response = await fetch(input, init);
+  if (response.ok) {
+    return response;
+  } else {
+    const errorBody = await response.json();
+    const errorMessage = errorBody.error;
+
+    throw Error(
+      "Request failed with status: " +
+        response.status +
+        " message: " +
+        errorMessage
+    );
+  }
+};
+
 const getDBClient = async () => {
   const client = await getClient(env.DB_URI);
   if (!client) {
@@ -45,6 +62,21 @@ export const createUserStock: RequestHandler<
   const query = `INSERT INTO stock_watchlist ("user_id", "stock_symbol") VALUES ($1, $2);`;
   const checkExist = `SELECT COUNT(*) FROM stock_watchlist WHERE 1=1 AND (stock_symbol = $1 AND user_id = $2)`;
   try {
+    const checkValidStock = await fetchData("http://localhost:8000/stock/", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ticker: stock_symbol,
+      }),
+    });
+
+    if (!checkValidStock.ok) {
+      throw createHttpError(404, "Stock Doesn't Exist!");
+    }
+
     const client = await getDBClient();
 
     const check = await client.query(checkExist, [stock_symbol, user_id]);

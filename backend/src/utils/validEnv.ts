@@ -10,4 +10,5 @@ export default cleanEnv(process.env, {
   REDIS_PORT: num(),
   // REDIS_URL: str(),
   REDIS_PASSWORD: str(),
+  STOCK_BACKEND_API_PORT: str(),
 });

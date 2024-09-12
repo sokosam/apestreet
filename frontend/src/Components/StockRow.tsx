@@ -1,8 +1,8 @@
 import style from "../styles/StockRow.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getStockName } from "../network/globalStocks";
 
 interface StockRowProps {
-  name: string;
   ticker: string;
   mentions: number;
   comments: number;
@@ -13,7 +13,6 @@ interface StockRowProps {
 }
 
 const StockRow = ({
-  name,
   fire,
   ticker,
   mentions,
@@ -22,9 +21,18 @@ const StockRow = ({
   upvotes,
 }: StockRowProps) => {
   const [imgSrc, setImgSrc] = useState(logo ? logo : "None");
+  const [stockName, setStockName] = useState(ticker);
   const handleError = () => {
     setImgSrc("../src/assets/defaultImg.jpg");
   };
+  useEffect(() => {
+    const getName = async (ticker: string) => {
+      const name = await getStockName(ticker);
+      setStockName(name);
+    };
+    getName(ticker);
+  }, [stockName, ticker]);
+
   return (
     <>
       <td
@@ -43,7 +51,7 @@ const StockRow = ({
             <div
               className={`align-[inherit] max-w-[50px] md:max-w-[100px] xl:max-w-[200px] mr-2 overflow-hidden overflow-ellipsis whitespace-nowrap`}
             >
-              {name}
+              {stockName}
             </div>
           </div>
         </a>
