@@ -28,3 +28,11 @@ services:
     command: ["redis-server", "--requirepass", "testing"]
     environment:
       - REDIS_PASSWORD=testing
+  backend:
+    container_name: backend_container
+    build:
+      context: ./backend-fastapi
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8000:8000"

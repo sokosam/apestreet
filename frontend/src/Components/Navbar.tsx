@@ -26,7 +26,7 @@ const Navbar = ({ onLogout, onLogin, onSignUp, user }: NavbarProps) => {
 
   return (
     <>
-      <nav className="min-h-16 max-h-32  flex">
+      <nav className="min-h-16 max-h-32  w-full flex">
         <div
           className={`p-4 max-w-screen-xl min-w-fit py-5 flex flex-wrap-reverse justify-between align-middle`}
         >
@@ -43,9 +43,11 @@ const Navbar = ({ onLogout, onLogin, onSignUp, user }: NavbarProps) => {
               Apestreet
             </p>
           </a>
-          <div className=" hidden md:block justify-between md:w-auto align-middle"></div>
+          <div className=" hidden md:block  justify-between md:w-auto align-middle"></div>
         </div>
-        <div className={`grow-[1] flex items-center justify-end space-x-5 `}>
+        <div
+          className={`grow-[1] flex items-center justify-self-end justify-end space-x-5 `}
+        >
           {user ? (
             <>
               <div className="w-fit pr-[20px]">
