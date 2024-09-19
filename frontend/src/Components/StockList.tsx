@@ -13,7 +13,7 @@ const StockList = ({ title, children }: StockListProps) => {
       {title ? <h1 className="self-center">{title}</h1> : null}
       <div
         id={style.wrapper}
-        className="m-auto border-2 border-opacity-5 min-w-fit md:w-full lg:w-[95%]  shadow-2xl   rounded-[25px] "
+        className="m-auto  border-2 border-opacity-5 min-w-fit md:w-full lg:w-[95%]  shadow-2xl   rounded-[25px] "
       >
         <table
           className={` px-5 w-full   overflow-hidden  border-separate  ${style.bg}`}

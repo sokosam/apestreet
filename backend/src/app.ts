@@ -1,15 +1,14 @@
+import cors from "cors";
 import express from "express";
 import session from "express-session";
-import isAuthenticated from "./auth/auth";
 import getPool from "./database";
 import errorHandler from "./middleware/errorHandler";
+import redisStore from "./redis_session.db";
 import userRoutes from "./routes/userRoutes";
 import userStockRoutes from "./routes/userStocksRoute";
 import createStockWatchlist from "./utils/createStockWatchlist";
 import createUserbase from "./utils/createUserbase";
 import env from "./utils/validEnv";
-import redisStore from "./redis_session.db";
-import cors from "cors";
 
 declare module "express-session" {
   interface SessionData {

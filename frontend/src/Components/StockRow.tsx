@@ -67,7 +67,7 @@ const StockRow = ({
       >
         {mentions}
       </td>
-      <td className={` text-center truncate self-center ${style.tableRow}`}>
+      <td className={`  text-center truncate self-center ${style.tableRow}`}>
         {comments}
       </td>
       <td className={`  text-center truncate self-center ${style.tableRow}`}>
