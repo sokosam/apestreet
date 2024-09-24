@@ -49,7 +49,7 @@ const StockRow = ({
           </div>
           <div className="  py-5    self-center ">
             <div
-              className={`align-[inherit] max-w-[50px] md:max-w-[100px] xl:max-w-[200px] mr-2 overflow-hidden overflow-ellipsis whitespace-nowrap`}
+              className={` align-[inherit] max-w-[50px] md:max-w-[100px] xl:max-w-[200px] mr-2 overflow-hidden overflow-ellipsis whitespace-nowrap`}
             >
               {stockName}
             </div>

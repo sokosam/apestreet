@@ -16,9 +16,9 @@ const StockList = ({ title, children }: StockListProps) => {
         className="m-auto  border-2 border-opacity-5 min-w-fit md:w-full lg:w-[95%]  shadow-2xl   rounded-[25px] "
       >
         <table
-          className={` px-5 w-full   overflow-hidden  border-separate  ${style.bg}`}
+          className={` px-5 w-full text-xs sm:text-md   overflow-hidden  border-separate  ${style.bg}`}
         >
-          <thead className={`h-16  ${style.tableHead}`}>
+          <thead className={`h-10 sm:h-16  ${style.tableHead}`}>
             <tr className={`${style.tableRow}`}>
               <th className={` ${style.tableItem}`} scope="col">
                 Company
