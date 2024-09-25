@@ -60,9 +60,9 @@ const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
               {...register("password", { required: true, minLength: 4 })}
               placeholder="Password"
             />
-            <div className="flex flex-col mb-[5px] ">
+            <div className={`flex flex-col mb-[5px] ${styles.inputWrapper}  `}>
               <input
-                className={`${styles.formInput} `}
+                className={`${styles.formInput}  self-center `}
                 {...register("password_confirm", {
                   required: true,
                   minLength: 4,
@@ -81,7 +81,7 @@ const SignUpForm = ({ onSignUp }: SignUpFormProps) => {
 
             <button
               disabled={buttonDisabled}
-              className={`${styles.submitButton} my-1 `}
+              className={`${styles.submitButton} `}
               type="submit"
             >
               Submit

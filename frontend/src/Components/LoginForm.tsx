@@ -50,14 +50,16 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
           {...register("email", { required: true, minLength: 4 })}
           placeholder="Email"
         />
-        <div className="flex flex-col mb-[5px] ">
+        <div className={`flex flex-col mb-[5px] ${styles.inputWrapper}`}>
           <input
-            className={`${styles.formInput} mb-0    `}
+            className={`${styles.formInput} mb-0  justify-center self-center   `}
             {...register("password", { required: true, minLength: 4 })}
             placeholder="Password"
             autoComplete="off"
           />
-          <div className="self-end text-xs text-blue-400">Forget Password?</div>
+          <div className={`self-end  text-blue-400 ${styles.forgetPassword}`}>
+            Forget Password?
+          </div>
         </div>
 
         <button
