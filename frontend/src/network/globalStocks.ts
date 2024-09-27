@@ -31,3 +31,21 @@ export const getStockName = async (ticker: string) => {
 
   return stock_name.json();
 };
+
+export const getMentions = async (ticker: string) => {
+  const mentions = await fetchData(
+    `${env.VITE_STOCK_BACKEND_API}/stock/mentions`,
+    {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ticker: ticker,
+      }),
+    }
+  );
+
+  return mentions.json();
+};

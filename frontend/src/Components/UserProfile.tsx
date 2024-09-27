@@ -106,7 +106,7 @@ const UserProfile = () => {
           </div>
           <div className="self-center w-full">{id}</div>
         </div>
-        <div className="w-[100%] lg:w-[70%] xl:w-[50%] text-xs  flex items-center ">
+        <div className="w-[100%] lg:w-[70%] xl:w-[50%] text-xs overflow-scroll flex items-center ">
           <StockList>
             {profileStockList &&
               profileStockList.map((stock) => (
@@ -114,7 +114,6 @@ const UserProfile = () => {
                   key={(+new Date() * Math.random())
                     .toString(36)
                     .substring(0, 6)}
-                  mentions={1}
                   ticker={stock.stock_symbol}
                   comments={1}
                   onInteraction={() => {}}

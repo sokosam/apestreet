@@ -1,10 +1,9 @@
 import style from "../styles/StockRow.module.css";
 import { useEffect, useState } from "react";
-import { getStockName } from "../network/globalStocks";
+import { getStockName, getMentions } from "../network/globalStocks";
 
 interface StockRowProps {
   ticker: string;
-  mentions: number;
   comments: number;
   logo?: string;
   upvotes: number;
@@ -12,26 +11,27 @@ interface StockRowProps {
   onInteraction: () => void;
 }
 
-const StockRow = ({
-  fire,
-  ticker,
-  mentions,
-  logo,
-  comments,
-  upvotes,
-}: StockRowProps) => {
+const StockRow = ({ fire, ticker, logo, comments, upvotes }: StockRowProps) => {
   const [imgSrc, setImgSrc] = useState(logo ? logo : "None");
   const [stockName, setStockName] = useState(ticker);
+  const [mentions, setMentions] = useState(0);
+
   const handleError = () => {
     setImgSrc("../src/assets/defaultImg.jpg");
   };
+
   useEffect(() => {
     const getName = async (ticker: string) => {
       const name = await getStockName(ticker);
       setStockName(name);
     };
+    const getMent = async (ticker: string) => {
+      const amt = await getMentions(ticker);
+      setMentions(amt);
+    };
     getName(ticker);
-  }, [stockName, ticker]);
+    getMent(ticker);
+  }, [stockName, mentions, ticker]);
 
   return (
     <>
