@@ -35,7 +35,7 @@ updated_stock_list ={}
 with open(r"company_tickers.json", "r") as file:
     data = json.load(file)
     for i in data:
-        stock_list[data[i]["ticker"].upper()] = 0  
+        updated_stock_list[data[i]["ticker"].upper()] = 0  
 
 from timeloop import Timeloop
 from datetime import timedelta
@@ -75,10 +75,15 @@ async def getMentions(stock: Stock):
 def start_tl():
     tl.start(block=True)
 
+
+
+
 def start_uvicorn():
     import uvicorn
+    import asyncio
+    
+    asyncio.create_task(getStock)
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
-import concurrent.futures
 if __name__ == "__main__":
-    start_uvicorn
+    start_uvicorn()
