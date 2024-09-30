@@ -5,11 +5,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import time, threading
 from os import environ as env
+import redis
 
 load_dotenv()
 
 
 app = FastAPI(async_mode='asgi')
+r = redis.Redis(host='localhost', port=6379)
+
 
 origins = [
     "http://localhost:5173",
@@ -31,27 +34,7 @@ with open(r"company_tickers.json", "r") as file:
     for i in data:
         stock_list[data[i]["ticker"]] = data[i]["title"]
 
-updated_stock_list ={}
-with open(r"company_tickers.json", "r") as file:
-    data = json.load(file)
-    for i in data:
-        updated_stock_list[data[i]["ticker"].upper()] = 0  
 
-from timeloop import Timeloop
-from datetime import timedelta
-import praw
-
-tl = Timeloop()
-
-@tl.job(interval=timedelta(seconds=600))
-def updateStocks():
-    reddit = praw.Reddit(client_id=env["client_id"], client_secret=env['client_secret'], user_agent=env['user_agent'])
-    print("ran again")
-    sub = reddit.subreddit("wallstreetbets")
-    for submission in sub.new(limit=5):
-        for word in submission.selftext.split():
-            if len(word) > 1 and  (word  in stock_list ):
-                stock_list[word] += 1  
 
 
 
@@ -65,24 +48,31 @@ async def getStock(stock: Stock):
     else:
         raise HTTPException(404, "Stock not found")
 
+def get_updated_stock_list():
+    # Retrieve updated_stock_list from Redis
+    data = r.get('updated_stock_list')
+    if data:
+        return json.loads(data)
+    return {}
+
 @app.post("/stock/mentions")
 async def getMentions(stock: Stock):
+    try:
+        updated_stock_list = get_updated_stock_list()
+    except Exception as e:
+        print(e)
+
     if stock.ticker.upper() in updated_stock_list:
         return updated_stock_list[stock.ticker.upper()]
     else:
         raise HTTPException(404, "Stock not found")
 
-def start_tl():
-    tl.start(block=True)
 
 
 
 
 def start_uvicorn():
     import uvicorn
-    import asyncio
-    
-    asyncio.create_task(getStock)
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 if __name__ == "__main__":

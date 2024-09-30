@@ -18,7 +18,7 @@ with open(r"company_tickers.json", "r") as file:
     for i in data:
         updated_stock_list[data[i]["ticker"].upper()] = 0  
 
-@tl.job(interval=timedelta(seconds=5))
+@tl.job(interval=timedelta(seconds=60))
 def updateStocks():
     reddit = praw.Reddit(client_id=env["client_id"], client_secret=env['client_secret'], user_agent=env['user_agent'])
     print("ran again")

@@ -62,7 +62,7 @@ export const signUpUser: RequestHandler<
   //May be inefficient, check on this later.
   const queryCheckExist =
     "SELECT COUNT(*) FROM USERBASE WHERE 1=1 AND (username = $1 OR email =$2)";
-  const query = `INSERT INTO USERBASE ("username", "email", "password") VALUES ($1, $2, $3);`;
+  const query = `INSERT INTO USERBASE ("username", "email", "password", "description") VALUES ($1, $2, $3, $4);`;
 
   try {
     if (!username || !email || !passwordRaw) {
@@ -86,7 +86,12 @@ export const signUpUser: RequestHandler<
       throw createHttpError(409, "Username or Email already registered.");
     }
 
-    const result = await client.query(query, [username, email, passwordHashed]);
+    const result = await client.query(query, [
+      username,
+      email,
+      passwordHashed,
+      "",
+    ]);
 
     const user_id = await client.query(
       "SELECT id,email FROM USERBASE WHERE 1=1 AND (username = $1)",
@@ -216,5 +221,65 @@ export const checkUserExists: RequestHandler = async (req, res, next) => {
   } catch (error) {
     console.error(error);
     next(error);
+  }
+};
+
+interface EditBody {
+  description: string;
+}
+export const editUserProfileDescription: RequestHandler<
+  unknown,
+  unknown,
+  EditBody,
+  unknown
+> = async (req, res, next) => {
+  const description = req.body.description;
+  const id = req.session.user_id;
+  const client = await getDBClient();
+
+  try {
+    await client.query("UPDATE userbase SET description = $1 WHERE id = $2", [
+      description,
+      id,
+    ]);
+    res.status(200).send({ message: "Description updated successfully" });
+  } catch (error) {
+    console.log(error);
+
+    next();
+  } finally {
+    await client.end();
+  }
+};
+
+interface GetUserDescriptionBody {
+  username: string;
+}
+
+export const getUserProfileDescription: RequestHandler<
+  unknown,
+  unknown,
+  GetUserDescriptionBody,
+  unknown
+> = async (req, res, next) => {
+  const username = req.body.username;
+  const client = await getDBClient();
+
+  try {
+    const result = await client.query(
+      "SELECT description FROM userbase WHERE USERNAME = $1",
+      [username]
+    );
+
+    if (result.rows.length > 0) {
+      const description = result.rows[0].description;
+      res.status(200).send({ description });
+    } else {
+      res.status(404).send({ message: "User not found" });
+    }
+  } catch (error) {
+    next(error);
+  } finally {
+    await client.end();
   }
 };

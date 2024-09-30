@@ -5,15 +5,16 @@ interface StockListProps {
   title?: string;
   width?: string | number;
   children: React.ReactNode;
+  outerStyle?: string;
 }
 
-const StockList = ({ title, children }: StockListProps) => {
+const StockList = ({ title, children, outerStyle }: StockListProps) => {
   return (
     <>
       {title ? <h1 className="self-center">{title}</h1> : null}
       <div
         id={style.wrapper}
-        className="m-auto  border-2 border-opacity-5 min-w-fit md:w-full lg:w-[95%]  shadow-2xl   rounded-[25px] "
+        className={`m-auto  border-2 border-opacity-5 min-w-fit md:w-full lg:w-[95%]  shadow-2xl   rounded-[25px] ${outerStyle}  `}
       >
         <table
           className={` px-5 w-full text-xs sm:text-md   overflow-hidden  border-separate  ${style.bg}`}

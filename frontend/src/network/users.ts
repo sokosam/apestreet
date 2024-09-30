@@ -91,3 +91,22 @@ export const logout = async () => {
     method: "POST",
   });
 };
+
+export const getUserDescription = async (
+  username: string
+): Promise<{ description: string }> => {
+  const response = await fetchData(
+    `${env.VITE_BACKEND_API}/api/users/description/get`,
+    {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+      }),
+    }
+  );
+  return response.json();
+};

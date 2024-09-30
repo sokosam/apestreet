@@ -25,6 +25,12 @@ const createUserbase = async () => {
       unique: false,
       type: "VARCHAR(60)",
     },
+    {
+      column_name: "DESCRIPTION",
+      not_null: true,
+      unique: false,
+      type: "VARCHAR(200)",
+    },
   ]);
 };
 

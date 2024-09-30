@@ -7,11 +7,11 @@ import { useParams } from "react-router-dom";
 import StockList from "./StockList";
 import StockRow from "./StockRow";
 import styles from "../styles/UserProfile.module.css";
-import img from "../assets/monki.jpg";
+import UserProfileTag from "./UserProfileTag";
 
 const UserProfile = () => {
   const [user, setUser] = useState<User | null>(null);
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<string>();
   const [profileStockList, setProfileStockList] = useState<
     { id: number; user_id: number; stock_symbol: string; created_at: string }[]
   >([]);
@@ -94,37 +94,25 @@ const UserProfile = () => {
       <div
         className={`m-auto p-5 pb-20 w-full md:w-[80%] h-fit flex justify-center  overflow-scroll   ${styles.wrapper} flex-col lg:flex-row`}
       >
-        <div
-          className={` w-full lg:min-w-0 mb-2 lg:mb-0 lg:w-[25%] ${styles.bg} shadow-2xl border-2 border-opacity-5 rounded-[25px] self-center box-border flex justify-start`}
-        >
-          <div className="self-center min-w-fit w-fit h-[40%] box-border ">
-            <img
-              className="size-10 m-2 border-2 rounded-[50%] "
-              src={img}
-              alt=""
-            />
-          </div>
-          <div className="self-center w-full">{id}</div>
-        </div>
-        <div className="w-[100%] lg:w-[70%] xl:w-[50%] text-xs overflow-scroll flex items-center ">
-          <StockList>
-            {profileStockList &&
-              profileStockList.map((stock) => (
-                <StockRow
-                  key={(+new Date() * Math.random())
-                    .toString(36)
-                    .substring(0, 6)}
-                  ticker={stock.stock_symbol}
-                  comments={1}
-                  onInteraction={() => {}}
-                  upvotes={0}
-                ></StockRow>
-              ))}
+        {/* fix use params being possibly undefined later */}
+        <UserProfileTag id={id!}></UserProfileTag>
+        {/* <div className="w-[100%] lg:w-[70%] xl:w-[50%] text-xs overflow-scroll flex items-center "> */}
+        <StockList outerStyle="min-w-[400px] w-[80%]">
+          {profileStockList &&
+            profileStockList.map((stock) => (
+              <StockRow
+                key={(+new Date() * Math.random()).toString(36).substring(0, 6)}
+                ticker={stock.stock_symbol}
+                comments={1}
+                onInteraction={() => {}}
+                upvotes={0}
+              ></StockRow>
+            ))}
 
-            <td></td>
-          </StockList>
-        </div>
+          <td></td>
+        </StockList>
       </div>
+      {/* </div> */}
     </>
   );
 };

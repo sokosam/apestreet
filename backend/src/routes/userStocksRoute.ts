@@ -1,11 +1,11 @@
 import express from "express";
+import isAuthenticated from "../auth/auth";
 import {
   createUserStock,
   deleteStock,
-  getStockWatchList,
   getPublicStockWatchlist,
+  getStockWatchList,
 } from "../controllers/stockController";
-import isAuthenticated from "../auth/auth";
 
 const router = express.Router();
 
